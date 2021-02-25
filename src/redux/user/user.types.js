@@ -1,0 +1,7 @@
+export const UserActionTypes = {
+  UPDATE_EMAIL: 'UPDATE_EMAIL',
+  UPDATE_PASSWORD: 'UPDATE_PASSWORD',
+  LOGIN: 'LOGIN',
+  SIGNUP: 'SIGNUP',
+  LOGOUT: 'LOGOUT'
+}
