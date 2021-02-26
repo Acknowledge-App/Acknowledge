@@ -28,12 +28,7 @@ function ViewAchievements({ navigation }) {
       counter++;
     } else if (counter === 1 && date.dateString === startDate) {
       setMarkedDates({
-        [date.dateString]: {
-          startingDay: true,
-          color: '#50cebb',
-          textColor: 'white',
-          endingDay: true,
-        },
+        [date.dateString]: initialCalendarHighlight,
       });
       counter = 0;
     } else {
@@ -43,11 +38,11 @@ function ViewAchievements({ navigation }) {
 
   var getDaysArray = function (start, end, daysArray) {
     for (
-      var dt = new Date(start);
-      dt <= new Date(end);
-      dt.setDate(dt.getDate() + 1)
+      var newDateObject = new Date(start);
+      newDateObject <= new Date(end);
+      newDateObject.setDate(newDateObject.getDate() + 1)
     ) {
-      daysArray.push(convertDate(dt));
+      daysArray.push(convertDate(newDateObject));
       setEndDate(daysArray.slice(-1).pop());
       setDateArr(daysArray);
     }
@@ -73,7 +68,7 @@ function ViewAchievements({ navigation }) {
     return year + '-' + month + '-' + day;
   };
 
-  const getMS = (date) => {
+  const getMilliseconds = (date) => {
     if (date != null) {
       return date.toMillis();
     } else {
@@ -82,24 +77,25 @@ function ViewAchievements({ navigation }) {
     }
   };
 
-  // const selectAchievements = (state) => state.achievements.filter(achievement => achievement.createdAt.seconds === seconds);
   const achievements = useSelector((state) => state.achievements);
 
+  // Showing initial achievements state
   let filteredAchievements = achievements.filter(
     (achievement) =>
-      convertDate(new Date(getMS(achievement.createdAt))) === startDate
+      convertDate(new Date(getMilliseconds(achievement.createdAt))) ===
+      startDate
   );
-  //const filteredEnd = achievements.filter(achievement => convertDate(new Date(getMS(achievement.createdAt))) === endDate);
 
   function filterAchievementWithDates(arr) {
     let filteredArrays = [];
     for (let i = 0; i < arr.length; i++) {
-      const x = achievements.filter(
+      const newAchievementsArray = achievements.filter(
         (achievement) =>
-          convertDate(new Date(getMS(achievement.createdAt))) === dateArr[i]
+          convertDate(new Date(getMilliseconds(achievement.createdAt))) ===
+          dateArr[i]
       );
 
-      filteredArrays.push(x);
+      filteredArrays.push(newAchievementsArray);
     }
 
     filteredAchievements = filteredArrays.flat(1);
@@ -199,5 +195,11 @@ const styles = StyleSheet.create({
 });
 
 const dateHighlight = { color: '#50cebb', textColor: 'white' };
+const initialCalendarHighlight = {
+  startingDay: true,
+  color: '#50cebb',
+  textColor: 'white',
+  endingDay: true,
+};
 
 export default ViewAchievements;
