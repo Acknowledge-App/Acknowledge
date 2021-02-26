@@ -37,31 +37,33 @@ function ViewAchievements({ navigation }) {
       });
       counter = 0;
     } else {
-      let arr = [];
-      var getDaysArray = function (start, end) {
-        for (
-          var dt = new Date(start);
-          dt <= new Date(end);
-          dt.setDate(dt.getDate() + 1)
-        ) {
-          arr.push(convertDate(dt));
-          setEndDate(arr.slice(-1).pop());
-          setDateArr(arr);
-        }
-
-        filterAchievementWithDates(dateArr);
-      };
-
-      getDaysArray(startDate, date.dateString);
-
-      setMarkedDates(
-        arr.reduce(
-          (a, b) => ((a[b] = { color: '#70d7c7', textColor: 'white' }), a),
-          {}
-        )
-      );
-      counter = 0;
+      setRangeOfDates(date);
     }
+  };
+
+  var getDaysArray = function (start, end, daysArray) {
+    for (
+      var dt = new Date(start);
+      dt <= new Date(end);
+      dt.setDate(dt.getDate() + 1)
+    ) {
+      daysArray.push(convertDate(dt));
+      setEndDate(daysArray.slice(-1).pop());
+      setDateArr(daysArray);
+    }
+    filterAchievementWithDates(dateArr);
+  };
+
+  let setRangeOfDates = (date) => {
+    let daysArray = [];
+    getDaysArray(startDate, date.dateString, daysArray);
+    setMarkedDates(
+      daysArray.reduce(
+        (a, b) => ((a[b] = { color: '#70d7c7', textColor: 'white' }), a),
+        {}
+      )
+    );
+    counter = 0;
   };
 
   const convertDate = (date) => {
