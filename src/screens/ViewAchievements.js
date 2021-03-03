@@ -6,59 +6,79 @@ import Header from '../components/Header';
 
 // Access state in Redux
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  getachievementsfirebase,
-  deleteachievementfirebase,
-} from '../redux/achievements/achievements.actions';
+import {  getachievementsfirebase } from '../redux/achievements/achievements.actions';
 
-let counter = 0;
+function todayDate() {
+  return new Date().toISOString().split("T")[0]
+}
 
 function ViewAchievements({ navigation }) {
-  const [startDate, setStartDate] = useState('2020-11-27');
-  const [endDate, setEndDate] = useState('2020-11-27');
-  const [markedDates, setMarkedDates] = useState({});
+  const [counter, setCounter] = useState(0)
+  const [startDate, setStartDate] = useState("")
+  const [endDate, setEndDate] = useState("");
+  const [markedDates, setMarkedDates] = useState({[todayDate()]: dateHighlight});
   const [dateArr, setDateArr] = useState([]);
+  const [filteredAchievements, setFilteredAchievements] = useState([])
+
+  const dispatch = useDispatch();
+  const getAchievementsFirebase = () => dispatch(getachievementsfirebase());
+  const achievements = useSelector((state) => state.achievements);
+
 
   const dateSelector = (date) => {
-    if (counter === 0) {
+
+    if (counter == 0) {
+      displayOneDayAchievements(date.dateString)
       setMarkedDates({
         [date.dateString]: dateHighlight,
       });
       setStartDate(date.dateString);
-      counter++;
-    } else if (counter === 1 && date.dateString === startDate) {
-      setMarkedDates({
-        [date.dateString]: initialCalendarHighlight,
-      });
-      counter = 0;
+        setCounter(1);
+    // } else if (counter === 1 && date.dateString === startDate) {
+    //   setMarkedDates({
+    //     [date.dateString]: initialCalendarHighlight,
+    //   });
+    //   setCounter(0);
     } else {
+     setMarkedDates({[startDate]: dateHighlight, [date.dateString]: dateHighlight})
       setRangeOfDates(date);
+      setCounter(0);
     }
+    
   };
 
-  var getDaysArray = function (start, end, daysArray) {
+  let displayOneDayAchievements = (day) => {
+    let filteredArray = [];
+    achievements.forEach(achievement => {
+       if (convertDate(new Date(getMilliseconds(achievement.createdAt))) === day) { filteredArray.push(achievement)}
+     })
+   setFilteredAchievements(filteredArray)
+  }
+
+  var arrayFromSelectedDates = function (lastSelected, newArray) {
     for (
-      var newDateObject = new Date(start);
-      newDateObject <= new Date(end);
+      var newDateObject = new Date(startDate);
+      newDateObject <= new Date(lastSelected);
       newDateObject.setDate(newDateObject.getDate() + 1)
     ) {
-      daysArray.push(convertDate(newDateObject));
-      setEndDate(daysArray.slice(-1).pop());
-      setDateArr(daysArray);
+      newArray.push(convertDate(newDateObject));
+      setEndDate(newArray.slice(-1).pop());
+      setDateArr(newArray);
     }
     filterAchievementWithDates(dateArr);
   };
 
+
   let setRangeOfDates = (date) => {
     let daysArray = [];
-    getDaysArray(startDate, date.dateString, daysArray);
+    arrayFromSelectedDates(date.dateString, daysArray);
+    console.log(daysArray)
     setMarkedDates(
       daysArray.reduce(
         (a, b) => ((a[b] = { color: '#70d7c7', textColor: 'white' }), a),
         {}
       )
     );
-    counter = 0;
   };
 
   const convertDate = (date) => {
@@ -77,37 +97,16 @@ function ViewAchievements({ navigation }) {
     }
   };
 
-  const achievements = useSelector((state) => state.achievements);
-
-  // Showing initial achievements state
-  let filteredAchievements = achievements.filter(
-    (achievement) =>
-      convertDate(new Date(getMilliseconds(achievement.createdAt))) ===
-      startDate
-  );
-
-  function filterAchievementWithDates(arr) {
-    let filteredArrays = [];
-    for (let i = 0; i < arr.length; i++) {
-      const newAchievementsArray = achievements.filter(
-        (achievement) =>
-          convertDate(new Date(getMilliseconds(achievement.createdAt))) ===
-          dateArr[i]
-      );
-
-      filteredArrays.push(newAchievementsArray);
-    }
-
-    filteredAchievements = filteredArrays.flat(1);
-    console.log('filteredachievements ===');
-    console.log(filteredAchievements);
+  function filterAchievementWithDates(dateArray) {
+    let filteredArray = [];
+     achievements.forEach(achievement => {
+      dateArray.forEach(day => {
+        if (convertDate(new Date(getMilliseconds(achievement.createdAt))) === day) { filteredArray.push(achievement)}
+      })
+    })
+    console.log("set achievements")
+    setFilteredAchievements(filteredArray)
   }
-
-  // Adding redux dispatch commands to update redux.
-  const dispatch = useDispatch();
-  const getAchievementsFirebase = () => dispatch(getachievementsfirebase());
-  const deleteAchievementFirebase = (id) =>
-    dispatch(deleteachievementfirebase(id));
 
   // Call firebase database and add achievements to firebase store
   useEffect(() => {
@@ -116,10 +115,9 @@ function ViewAchievements({ navigation }) {
 
   return (
     <>
-      <Header titleText="Access" />
       <Calendar
         onDayPress={(day) => {
-          dateSelector(day), console.log('selected day', day);
+         dateSelector(day);
         }}
         markedDates={markedDates}
         markingType={'period'}
@@ -129,7 +127,6 @@ function ViewAchievements({ navigation }) {
         {filteredAchievements.length === 0 ? (
           <View style={styles.titleContainer}>
             <Text style={styles.title}>
-              {' '}
               No achievements saved on selected day
             </Text>
           </View>
@@ -197,7 +194,7 @@ const styles = StyleSheet.create({
 const dateHighlight = { color: '#50cebb', textColor: 'white' };
 const initialCalendarHighlight = {
   startingDay: true,
-  color: '#50cebb',
+  color: '#fff',
   textColor: 'white',
   endingDay: true,
 };
