@@ -6,55 +6,62 @@ import Header from '../components/Header';
 
 // Access state in Redux
 import { useSelector, useDispatch } from 'react-redux';
-import {  getachievementsfirebase } from '../redux/achievements/achievements.actions';
+import { getachievementsfirebase } from '../redux/achievements/achievements.actions';
 
 function todayDate() {
-  return new Date().toISOString().split("T")[0]
+  return new Date().toISOString().split('T')[0];
 }
 
 function ViewAchievements({ navigation }) {
-  const [counter, setCounter] = useState(0)
-  const [startDate, setStartDate] = useState("")
-  const [endDate, setEndDate] = useState("");
-  const [markedDates, setMarkedDates] = useState({[todayDate()]: dateHighlight});
+  const [counter, setCounter] = useState(0);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [markedDates, setMarkedDates] = useState({
+    [todayDate()]: dateHighlight,
+  });
   const [dateArr, setDateArr] = useState([]);
-  const [filteredAchievements, setFilteredAchievements] = useState([])
+  const [filteredAchievements, setFilteredAchievements] = useState([]);
 
   const dispatch = useDispatch();
   const getAchievementsFirebase = () => dispatch(getachievementsfirebase());
   const achievements = useSelector((state) => state.achievements);
 
-
   const dateSelector = (date) => {
-
     if (counter == 0) {
-      displayOneDayAchievements(date.dateString)
+      displayOneDayAchievements(date.dateString);
       setMarkedDates({
         [date.dateString]: dateHighlight,
       });
       setStartDate(date.dateString);
-        setCounter(1);
-    // } else if (counter === 1 && date.dateString === startDate) {
-    //   setMarkedDates({
-    //     [date.dateString]: initialCalendarHighlight,
-    //   });
-    //   setCounter(0);
+      setCounter(1);
+      // } else if (counter === 1 && date.dateString === startDate) {
+      //   setMarkedDates({
+      //     [date.dateString]: initialCalendarHighlight,
+      //   });
+      //   setCounter(0);
     } else {
-     setMarkedDates({[startDate]: dateHighlight, [date.dateString]: dateHighlight})
+      setMarkedDates({
+        [startDate]: dateHighlight,
+        [date.dateString]: dateHighlight,
+      });
       setRangeOfDates(date);
       setCounter(0);
     }
-    
   };
 
   let displayOneDayAchievements = (day) => {
     let filteredArray = [];
-    achievements.forEach(achievement => {
-       if (convertDate(new Date(getMilliseconds(achievement.createdAt))) === day) { filteredArray.push(achievement)}
-     })
-   setFilteredAchievements(filteredArray)
-  }
+    achievements.forEach((achievement) => {
+      if (
+        convertDate(new Date(getMilliseconds(achievement.createdAt))) === day
+      ) {
+        filteredArray.push(achievement);
+      }
+    });
+    setFilteredAchievements(filteredArray);
+  };
 
+  // potential bug find more clear way to generate list of dates
   var arrayFromSelectedDates = function (lastSelected, newArray) {
     for (
       var newDateObject = new Date(startDate);
@@ -68,11 +75,9 @@ function ViewAchievements({ navigation }) {
     filterAchievementWithDates(dateArr);
   };
 
-
   let setRangeOfDates = (date) => {
-    let daysArray = [];
+    let daysArray = []; // <---- check this array
     arrayFromSelectedDates(date.dateString, daysArray);
-    console.log(daysArray)
     setMarkedDates(
       daysArray.reduce(
         (a, b) => ((a[b] = { color: '#70d7c7', textColor: 'white' }), a),
@@ -99,13 +104,17 @@ function ViewAchievements({ navigation }) {
 
   function filterAchievementWithDates(dateArray) {
     let filteredArray = [];
-     achievements.forEach(achievement => {
-      dateArray.forEach(day => {
-        if (convertDate(new Date(getMilliseconds(achievement.createdAt))) === day) { filteredArray.push(achievement)}
-      })
-    })
-    console.log("set achievements")
-    setFilteredAchievements(filteredArray)
+    achievements.forEach((achievement) => {
+      dateArray.forEach((day) => {
+        if (
+          convertDate(new Date(getMilliseconds(achievement.createdAt))) === day
+        ) {
+          filteredArray.push(achievement);
+        }
+      });
+    });
+    console.log('set achievements');
+    setFilteredAchievements(filteredArray);
   }
 
   // Call firebase database and add achievements to firebase store
@@ -117,7 +126,7 @@ function ViewAchievements({ navigation }) {
     <>
       <Calendar
         onDayPress={(day) => {
-         dateSelector(day);
+          dateSelector(day);
         }}
         markedDates={markedDates}
         markingType={'period'}
