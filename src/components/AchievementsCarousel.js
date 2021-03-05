@@ -80,8 +80,6 @@ const styles = StyleSheet.create({
   fadingContainer: {
     paddingVertical: 8,
     width: width - 20,
-    //backgroundColor: "#60DBC5",
-    //borderWidth: 2
   },
   fadingText: {
     fontSize: 20,
