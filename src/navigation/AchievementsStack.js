@@ -1,26 +1,19 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack'
-
-import { View} from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { IconButton } from 'react-native-paper';
-
+import { useDispatch } from 'react-redux';
+import { getachievementsfirebase } from '../redux/achievements/achievements.actions';
 import ViewAchievements from '../screens/ViewAchievements';
 import AddAchievement from '../screens/AddAchievement';
 
-const Stack = createStackNavigator()
-
-import { useDispatch } from 'react-redux'
-
-import { getachievementsfirebase } from '../redux/achievements/achievements.actions'
-
+const Stack = createStackNavigator();
 function AchievementsStack({ navigation }) {
-
-  const dispatch = useDispatch()
-  const getAchievementsFirebase = () => dispatch(getachievementsfirebase())
+  const dispatch = useDispatch();
+  const getAchievementsFirebase = () => dispatch(getachievementsfirebase());
 
   return (
-    <Stack.Navigator 
-    screenOptions={{
+    <Stack.Navigator
+      screenOptions={{
         gestureEnabled: true,
         headerShown: true,
         headerStyle: {
@@ -31,10 +24,11 @@ function AchievementsStack({ navigation }) {
           fontSize: 20,
           fontWeight: '600',
         },
-        headerTitleAlign: 'center'
-      }}>
+        headerTitleAlign: 'center',
+      }}
+    >
       <Stack.Screen
-        name='ViewAchievements'
+        name="ViewAchievements"
         component={ViewAchievements}
         options={{
           title: 'Acknowledge',
@@ -47,7 +41,7 @@ function AchievementsStack({ navigation }) {
         }}
       />
       <Stack.Screen
-        name='AddAchievement'
+        name="AddAchievement"
         component={AddAchievement}
         options={{
           title: 'Add an Achievement',
@@ -56,5 +50,5 @@ function AchievementsStack({ navigation }) {
     </Stack.Navigator>
   );
 }
- 
-export default AchievementsStack
+
+export default AchievementsStack;
