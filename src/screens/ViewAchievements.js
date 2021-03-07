@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, FlatList } from 'react-native';
 import { Text, FAB, List } from 'react-native-paper';
 import { Calendar } from 'react-native-calendars';
-import Header from '../components/Header';
+
 
 // Access state in Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -69,21 +69,24 @@ function ViewAchievements({ navigation }) {
       newDateObject.setDate(newDateObject.getDate() + 1)
     ) {
       newArray.push(convertDate(newDateObject));
-      setEndDate(newArray.slice(-1).pop());
       setDateArr(newArray);
+      filterAchievementWithDates(newArray);
     }
-    filterAchievementWithDates(dateArr);
+    
   };
 
   let setRangeOfDates = (date) => {
     let daysArray = []; // <---- check this array
     arrayFromSelectedDates(date.dateString, daysArray);
+
     setMarkedDates(
       daysArray.reduce(
         (a, b) => ((a[b] = { color: '#70d7c7', textColor: 'white' }), a),
         {}
       )
+      
     );
+      
   };
 
   const convertDate = (date) => {
