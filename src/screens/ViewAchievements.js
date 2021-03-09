@@ -124,6 +124,17 @@ function ViewAchievements({ navigation }) {
   useEffect(() => {
     getAchievementsFirebase();
   }, []);
+  console.log("..")
+
+  // console.log(achievements[achievements.length-1].achievementTitle)
+
+  function getLastAchivevement() {
+    if(achievements != undefined && achievements.length != 0 ){
+      console.log(achievements)
+      return achievements[achievements.length-1].achievementTitle
+    } 
+    return ""
+  }
 
   return (
     <>
@@ -139,7 +150,11 @@ function ViewAchievements({ navigation }) {
         {filteredAchievements.length === 0 ? (
           <View style={styles.titleContainer}>
             <Text style={styles.title}>
-              No achievements saved on selected day
+              
+              Today there isn't any Achievements
+
+              The Last achievement was {getLastAchivevement()} from (date)
+
             </Text>
           </View>
         ) : (
