@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, FlatList } from 'react-native';
+import { StyleSheet, View, FlatList, ScrollView } from 'react-native';
 import { Text, FAB, List } from 'react-native-paper';
 import { Calendar } from 'react-native-calendars';
+
 
 // Access state in Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -144,6 +145,9 @@ function ViewAchievements({ navigation }) {
 
   return (
     <>
+    
+    <View style={styles.container}>
+    <ScrollView>
       <Calendar
         onDayPress={(day) => {
           dateSelector(day);
@@ -152,7 +156,8 @@ function ViewAchievements({ navigation }) {
         markingType={'period'}
       />
 
-      <View style={styles.container}>
+      
+
         {filteredAchievements.length === 0 ? (
           <View style={styles.titleContainer}>
             <Text style={styles.title}>
@@ -183,6 +188,7 @@ function ViewAchievements({ navigation }) {
             keyExtractor={(item) => item.id.toString()}
           />
         )}
+        </ScrollView>
         <FAB
           style={styles.fabAdd}
           small
@@ -190,7 +196,9 @@ function ViewAchievements({ navigation }) {
           label="Add Achievement"
           onPress={() => navigation.navigate('AddAchievement')}
         />
+        
       </View>
+      
     </>
   );
 }
