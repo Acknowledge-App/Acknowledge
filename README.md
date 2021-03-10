@@ -8,7 +8,7 @@
 
 **What we want it to leave people with**: With feelings of success, satisfaction and self appreciation. With excitement for what will come next.
 
-Acknowledge is an app to save your achievements over your day. A lot of achievements that we make day to day are usually lost in the noise of our busy lives; sometimes small, sometimes intangible but Acknowledge seeks to change that. With Acknowledge you can record day your achievements and place where they fit into your lives.
+Acknowledge is an app to save your achievements over your day. A lot of achievements that we make day to day are usually lost in the noise of our busy lives; sometimes small, sometimes intangible but Acknowledge seeks to change that. With Acknowledge you can record your day to day achievements and place where they fit into your lives.
 
 This coding project is being built by a team of coders from Makers Academy, lead by David Stewart at the direction of Julie McManus.
 
