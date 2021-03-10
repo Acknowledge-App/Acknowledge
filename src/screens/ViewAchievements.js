@@ -3,7 +3,6 @@ import { StyleSheet, View, FlatList } from 'react-native';
 import { Text, FAB, List } from 'react-native-paper';
 import { Calendar } from 'react-native-calendars';
 
-
 // Access state in Redux
 import { useSelector, useDispatch } from 'react-redux';
 import { getachievementsfirebase } from '../redux/achievements/achievements.actions';
@@ -72,7 +71,6 @@ function ViewAchievements({ navigation }) {
       setDateArr(newArray);
       filterAchievementWithDates(newArray);
     }
-    
   };
 
   let setRangeOfDates = (date) => {
@@ -84,9 +82,7 @@ function ViewAchievements({ navigation }) {
         (a, b) => ((a[b] = { color: '#70d7c7', textColor: 'white' }), a),
         {}
       )
-      
     );
-      
   };
 
   const convertDate = (date) => {
@@ -95,6 +91,12 @@ function ViewAchievements({ navigation }) {
     var year = date.getFullYear();
     return year + '-' + month + '-' + day;
   };
+
+  function secondsToDate(secs) {
+    var convertedDate = new Date(1970, 0, 1); // Epoch
+    convertedDate.setSeconds(secs);
+    return convertedDate;
+  }
 
   const getMilliseconds = (date) => {
     if (date != null) {
@@ -116,7 +118,6 @@ function ViewAchievements({ navigation }) {
         }
       });
     });
-    console.log('set achievements');
     setFilteredAchievements(filteredArray);
   }
 
@@ -124,6 +125,22 @@ function ViewAchievements({ navigation }) {
   useEffect(() => {
     getAchievementsFirebase();
   }, []);
+
+  function getLastAchievement() {
+    if (achievements != null && achievements.length != 0) {
+      return achievements[achievements.length - 1].achievementTitle;
+    }
+    return '';
+  }
+
+  function getLastAchievementDate() {
+    if (achievements != null && achievements.length != 0) {
+      let lastAchievement =
+        achievements[achievements.length - 1].createdAt.seconds;
+      return secondsToDate(lastAchievement).toString().split('GMT')[0];
+    }
+    return '';
+  }
 
   return (
     <>
@@ -139,7 +156,8 @@ function ViewAchievements({ navigation }) {
         {filteredAchievements.length === 0 ? (
           <View style={styles.titleContainer}>
             <Text style={styles.title}>
-              No achievements saved on selected day
+              The Last achievement was {getLastAchievement()} from{' '}
+              {getLastAchievementDate()}
             </Text>
           </View>
         ) : (
