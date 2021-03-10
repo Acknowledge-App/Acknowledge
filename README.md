@@ -18,7 +18,7 @@ The app has been deployed to netlify using a web build version of the project. I
 
 ## Getting Started
 
-To run this project you will need to have the React Native Expo client installed and Node.js. You will also need to have either Xcode or AndroidSDK installed to run the mobile application in an emulator. Therefore it is recommended that you only run this application on your local computer if you already have these installed, else there will be a browser deploymemnt available in the near future.
+To run this project you will need to have the React Native Expo client installed and Node.js. You will also need to have either Xcode or AndroidSDK installed to run the mobile application in an emulator. Therefore it is recommended that you only run this application on your local computer if you already have these installed, else there will be a browser deployment available in the near future.
 
 ### Prerequisites
 
@@ -34,7 +34,7 @@ Firstly clone (if you don't plan to make changes) or fork (if you do plan to mak
 
 After downloading the repo, open it within your IDE of choice.
 
-Then opn the terminal within the parent foler and, if possible, use yarn to install the required node modules
+Then open the terminal within the parent folder and, if possible, use yarn to install the required node modules
 
 ```
 yarn install
@@ -50,7 +50,7 @@ After installing the required node modules, run the expo client
 expo start
 ```
 
-Once you have run expo clinet, a new tab will be opened in your web browser with the expo console where you can choose to run the project in an emulator of your choice: iOS, Android or Web.
+Once you have run expo client, a new tab will be opened in your web browser with the expo console where you can choose to run the project in an emulator of your choice: iOS, Android or Web.
 
 Enjoy!
 
@@ -83,12 +83,12 @@ I want to be able to login,
 So that I can view my achievements from any device.
 
 As a user,
-I would like to open the app a homepage,
-So that I can be displayed the most useful information.
+I would like to open the app homepage,
+So that I can be displayed with the most useful information.
 
 As a user,
-I want to recieve notification reminders,
-So that I am reminded to do certain task or view certain things.
+I want to receive notification reminders,
+So that I am reminded to do a certain task or view certain things.
 
 As a user,
 I want to view my past achievements organised by day,
