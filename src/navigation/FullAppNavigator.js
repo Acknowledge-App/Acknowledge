@@ -28,7 +28,7 @@ function FullAppNavigator() {
           name='MainAppBottomTabNavigator'
           component={MainAppBottomTabNavigator}
         />
-      ) }
+      )}
     </Stack.Navigator>
   )
 }
