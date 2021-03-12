@@ -6,7 +6,7 @@ import GraphSelectedB from '../screens/GraphSelectedB';
 
 const Stack = createStackNavigator()
 
-function GraphStack() {
+function GraphStack({ navigation }) {
   return (
     <Stack.Navigator 
     screenOptions={{
