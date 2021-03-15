@@ -11,7 +11,7 @@ const Tab = createMaterialBottomTabNavigator();
 function MainAppBottomTabNavigator() {
   return(
     <Tab.Navigator
-      initialRouteName="ViewAchievements"
+      initialRouteName="HomeScreen"
       shifting={true}
       sceneAnimationEnabled={true}
       barStyle={{ backgroundColor: '#60DBC5' }}
