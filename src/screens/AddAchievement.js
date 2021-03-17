@@ -54,6 +54,15 @@ function AddAchievement({ navigation }) {
               onChangeText={setAchievementTitle}
               style={styles.title}
             />
+            <TextInput
+              label="Add Description Here"
+              // value={achievementTitle}
+              mode="outlined"
+              // onChangeText={setAchievementTitle}
+              multiline
+              style={styles.DescriptionBox}
+            />
+
             <Text style={styles.text}> Where does it sit? </Text>
             <Checkbox label="Work" saveSelected={saveSelectedPartOfLife} />
             <Checkbox label="Self" saveSelected={saveSelectedPartOfLife} />
@@ -112,6 +121,10 @@ const styles = StyleSheet.create({
     margin: 20,
     right: 0,
     bottom: 70,
+  },
+  DescriptionBox: {
+    fontSize: 20,
+    marginBottom: 20,
   },
 });
 
