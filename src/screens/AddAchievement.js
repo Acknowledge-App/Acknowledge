@@ -12,6 +12,9 @@ import { addachievementfirebase } from '../redux/achievements/achievements.actio
 
 function AddAchievement({ navigation }) {
   const [achievementTitle, setAchievementTitle] = useState('');
+  // 
+  const [achievementDescription, setDescription] = useState('');
+  // 
   const [selectedA, setSelectedA] = useState([]);
   const [selectedB, setSelectedB] = useState([]);
 
@@ -23,6 +26,9 @@ function AddAchievement({ navigation }) {
     const createdAt = firebase.firestore.FieldValue.serverTimestamp();
     addAchievementFirebase({
       achievementTitle,
+      //
+      achievementDescription,
+      //
       selectedA,
       selectedB,
       createdAt,
@@ -56,9 +62,9 @@ function AddAchievement({ navigation }) {
             />
             <TextInput
               label="Add Description Here"
-              // value={achievementTitle}
+              value={achievementDescription}
               mode="outlined"
-              // onChangeText={setAchievementTitle}
+              onChangeText={setDescription}
               multiline
               style={styles.DescriptionBox}
             />
