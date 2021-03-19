@@ -66,6 +66,15 @@ export const signup = () => {
               .set(user)
 
             dispatch({ type: UserActionTypes.SIGNUP, payload: response.user })
+
+            
+            var userCurrent = Firebase.auth().currentUser;
+
+            userCurrent.sendEmailVerification().then(function() {
+              console.log('Email sent.');
+            }).catch(function(error) {
+              console.log('An error happened.')
+            });
           }
       } catch (e) {
           alert(e)
