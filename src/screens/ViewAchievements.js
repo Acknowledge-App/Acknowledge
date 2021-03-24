@@ -154,15 +154,16 @@ function ViewAchievements({ navigation }) {
 
     return (
       <View style={styles.content}>
-        <Text>{section.achievementDescription}</Text>
+        <Text>{section.achievementTitle}</Text>
       </View>
     );
   };
 
   let _renderHeader = section => {
     return (
-      <View style={styles.header}>
-        <Text style={styles.headerText}>{section.achievementTitle}</Text>
+
+      <View style={styles.listTitle}>
+        <Text style={styles.listTitle}>{section.achievementTitle}</Text>
       </View>
     );
   };
@@ -171,14 +172,15 @@ function ViewAchievements({ navigation }) {
 
     return (
       <View style={styles.content}>
-        <Text style ={styles.headerText}>{section.achievementDescription}</Text>
+        <Text style ={styles.titleDescription}>{section.achievementDescription} </Text>
+        
       </View>
     );
   };
 
   let _updateSections = activeSections => {
-    setActiveSections({ activeSections });
-    console.log(activeSections)
+    setActiveSections( activeSections );
+    console.log(typeof activeSections)
   };
   
 
@@ -208,12 +210,10 @@ function ViewAchievements({ navigation }) {
             <Accordion
                     sections={filteredAchievements}
                     activeSections={activeSections}
-                    renderSectionTitle={_renderSectionTitle}
                     renderHeader={_renderHeader}
                     renderContent={_renderContent}
                     onChange={_updateSections}
                   />
-            // sections={SECTIONS}
     
           // <FlatList
           //   data={filteredAchievements}
@@ -265,33 +265,7 @@ function ViewAchievements({ navigation }) {
     </>
   );
 }
-const buttonStyle = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
-  },
-  wrapperCollapsibleList: {
-    flex: 1,
-    marginTop: 20,
-    overflow: 'hidden',
-    backgroundColor: '#FFF',
-    borderRadius: 5,
-  },
-  button: {
-    padding: 10,
-    backgroundColor: '#c2185b',
-  },
-  collapsibleItem: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: '#CCC',
-    padding: 10,
-  },
-  buttonText: {
-    color: '#FFF',
-  },
-});
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -305,10 +279,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
+    flex: 1,
     fontSize: 20,
   },
   titleDescription: {
+    marginBottom: 5,
     fontSize: 15,
+    textAlign: 'center',
   },
   fabAdd: {
     position: 'absolute',
@@ -317,6 +294,8 @@ const styles = StyleSheet.create({
     bottom: 10,
   },
   listTitle: {
+    marginBottom: 8,
+    textAlign: 'center',
     fontSize: 20,
   },
 });
