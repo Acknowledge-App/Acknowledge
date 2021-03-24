@@ -2,16 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, FlatList, ScrollView } from 'react-native';
 import { Text, FAB, List } from 'react-native-paper';
 import { Calendar } from 'react-native-calendars';
-
-
-
 import Accordion from 'react-native-collapsible/Accordion';
 
 // Access state in Redux
 import { useSelector, useDispatch } from 'react-redux';
 import { getachievementsfirebase } from '../redux/achievements/achievements.actions';
-import { Alert } from 'react-native';
-import { set } from 'react-native-reanimated';
 
 
 function todayDate() {
@@ -150,15 +145,6 @@ function ViewAchievements({ navigation }) {
     return '';
   }
 
-  let _renderSectionTitle = section => {
-
-    return (
-      <View style={styles.content}>
-        <Text>{section.achievementTitle}</Text>
-      </View>
-    );
-  };
-
   let _renderHeader = section => {
     return (
 
@@ -169,25 +155,20 @@ function ViewAchievements({ navigation }) {
   };
 
   let _renderContent = section => {
-
     return (
       <View style={styles.content}>
         <Text style ={styles.titleDescription}>{section.achievementDescription} </Text>
-        
       </View>
     );
   };
 
   let _updateSections = activeSections => {
     setActiveSections( activeSections );
-    console.log(typeof activeSections)
   };
   
-
   
   return (
     <>
-    
     <View style={styles.container}>
     <ScrollView>
       <Calendar
@@ -214,41 +195,6 @@ function ViewAchievements({ navigation }) {
                     renderContent={_renderContent}
                     onChange={_updateSections}
                   />
-    
-          // <FlatList
-          //   data={filteredAchievements}
-          //   renderItem={({ item }) => (
-          //     <div>
-                  
-
-          //     <List.Item
-          //       title={item.achievementTitle}
-                
-
-          //       titleDescription={item.achievementDescription}
-
-          //       description={[item.achievementDescription,
-          //         item.selectedA.join(),
-          //         ',',
-          //         item.selectedB.join(),
-          //       ]}
-          //       descriptionNumberOfLines={2}
-          //       titleStyle={styles.listTitle}
-
-          //       onPress={() => 
-          //         // <Text style={styles.title}>
-          //         //  {item.achievementDescription} 
-          //         // </Text>
-          //         Alert.alert(item.achievementDescription)
-          //         // console.log(
-          //         //   `Achievment: id:${item.id} with title: ${item.achievementTitle} Description if they have one: ${item.achievementDescription}`
-          //         // )
-          //       }
-          //     />
-          //     </div>
-          //   )}
-          //   keyExtractor={(item) => item.id.toString()}
-          // />
           )
         }
 
