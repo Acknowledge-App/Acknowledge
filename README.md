@@ -12,6 +12,8 @@ Acknowledge is an app to save your achievements over your day. A lot of achievem
 
 This coding project is being built by a team of coders from Makers Academy, lead by David Stewart at the direction of Julie McManus.
 
+Find out more at [Acknowledge web page](https://acknowledgeyourpower.wordpress.com/)
+
 ## Try out the app now!!!
 
 The app has been deployed to netlify using a web build version of the project. It can be accessed [here](https://access-your-achievements.netlify.app/).
