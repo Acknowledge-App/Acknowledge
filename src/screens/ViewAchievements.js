@@ -232,6 +232,9 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     fontSize: 15,
     textAlign: 'center',
+    marginLeft: 3,
+    marginRight: 3,
+    // width: '95%',
   },
   fabAdd: {
     position: 'absolute',
