@@ -2,17 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, FlatList, ScrollView } from 'react-native';
 import { Text, FAB, List } from 'react-native-paper';
 import { Calendar } from 'react-native-calendars';
-
+import Accordion from 'react-native-collapsible/Accordion';
 
 // Access state in Redux
 import { useSelector, useDispatch } from 'react-redux';
 import { getachievementsfirebase } from '../redux/achievements/achievements.actions';
+
 
 function todayDate() {
   return new Date().toISOString().split('T')[0];
 }
 
 function ViewAchievements({ navigation }) {
+  var [activeSections, setActiveSections] = useState([])
   const [counter, setCounter] = useState(0);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -143,9 +145,30 @@ function ViewAchievements({ navigation }) {
     return '';
   }
 
+  let _renderHeader = section => {
+    return (
+
+      <View style={styles.listTitle}>
+        <Text style={styles.listTitle}>{section.achievementTitle}</Text>
+      </View>
+    );
+  };
+
+  let _renderContent = section => {
+    return (
+      <View style={styles.content}>
+        <Text style ={styles.titleDescription}>{section.achievementDescription} </Text>
+      </View>
+    );
+  };
+
+  let _updateSections = activeSections => {
+    setActiveSections( activeSections );
+  };
+  
+  
   return (
     <>
-    
     <View style={styles.container}>
     <ScrollView>
       <Calendar
@@ -156,8 +179,6 @@ function ViewAchievements({ navigation }) {
         markingType={'period'}
       />
 
-      
-
         {filteredAchievements.length === 0 ? (
           <View style={styles.titleContainer}>
             <Text style={styles.title}>
@@ -165,29 +186,18 @@ function ViewAchievements({ navigation }) {
               {getLastAchievementDate()}
             </Text>
           </View>
-        ) : (
-          <FlatList
-            data={filteredAchievements}
-            renderItem={({ item }) => (
-              <List.Item
-                title={item.achievementTitle}
-                description={[
-                  item.selectedA.join(),
-                  ',',
-                  item.selectedB.join(),
-                ]}
-                descriptionNumberOfLines={2}
-                titleStyle={styles.listTitle}
-                onPress={() =>
-                  console.log(
-                    `Achievment: id:${item.id} with title: ${item.achievementTitle}`
-                  )
-                }
-              />
-            )}
-            keyExtractor={(item) => item.id.toString()}
-          />
-        )}
+        ) : 
+          (
+            <Accordion
+                    sections={filteredAchievements}
+                    activeSections={activeSections}
+                    renderHeader={_renderHeader}
+                    renderContent={_renderContent}
+                    onChange={_updateSections}
+                  />
+          )
+        }
+
         </ScrollView>
         <FAB
           style={styles.fabAdd}
@@ -198,7 +208,6 @@ function ViewAchievements({ navigation }) {
         />
         
       </View>
-      
     </>
   );
 }
@@ -216,7 +225,15 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
+    flex: 1,
     fontSize: 20,
+  },
+  titleDescription: {
+    marginBottom: 5,
+    fontSize: 15,
+    textAlign: 'center',
+    marginLeft: 3,
+    marginRight: 3,
   },
   fabAdd: {
     position: 'absolute',
@@ -225,6 +242,8 @@ const styles = StyleSheet.create({
     bottom: 10,
   },
   listTitle: {
+    marginBottom: 8,
+    textAlign: 'center',
     fontSize: 20,
   },
 });
