@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, useWindowDimensions } from 'react-native';
-import { BarChart, XAxis, Grid } from 'react-native-svg-charts';
+import { BarChart, XAxis } from 'react-native-svg-charts';
 import { Text } from 'react-native-svg';
 import * as scale from 'd3-scale';
 
@@ -51,18 +51,17 @@ function BarChartVerticalWithLabels(props) {
 
   const CUT_OFF = 20;
   const Labels = ({ x, y, bandwidth, data }) => {
-    console.log('data is: ' + data);
-    return data.map((ach, index) => (
+    return props.data.map((value, index) => (
       <Text
         key={index}
-        x={index + bandwidth / 2}
-        y={ach.value < CUT_OFF ? y(ach.value) - 10 : y(ach.value) + 15}
+        x={x(index) + bandwidth / 2}
+        y={value < CUT_OFF ? y(value) - 10 : y(value) + 15}
         fontSize={14}
-        fill={ach.value >= CUT_OFF ? 'red' : 'black'}
+        fill={value >= CUT_OFF ? 'red' : 'black'}
         alignmentBaseline={'middle'}
         textAnchor={'middle'}
       >
-        {ach.value}
+        {value}
       </Text>
     ));
   };
@@ -81,7 +80,9 @@ function BarChartVerticalWithLabels(props) {
         svg={{ fill: 'rgba(134, 65, 244, 0.8)' }}
         yAccessor={({ item }) => item.value}
         contentInset={{ top: 20, bottom: 20 }}
-      ></BarChart>
+      >
+        <Labels />
+      </BarChart>
 
       <XAxis
         style={{ marginHorizontal: -10 }}
