@@ -1,55 +1,98 @@
-import React from 'react'
-import { View, useWindowDimensions } from 'react-native'
-import { BarChart, XAxis } from 'react-native-svg-charts'
-import { Text } from 'react-native-svg'
-import * as scale from 'd3-scale'
-
+import React from 'react';
+import { View, useWindowDimensions } from 'react-native';
+import { BarChart, XAxis, Grid } from 'react-native-svg-charts';
+import { Text } from 'react-native-svg';
+import * as scale from 'd3-scale';
 
 function BarChartVerticalWithLabels(props) {
+  const achievementsData = props.data;
+  const xAxisData = props.xAxisData;
 
-  const achievementsData = props.data
-  const xAxisData = props.xAxisData
-  
-  const CUT_OFF = 20
-  const Labels = ({ x, y, bandwidth, data }) => (
-    data.map((value, index) => (
+  function addCustomColour() {
+    let newData = [];
+    achievementsData.forEach((element) => {
+      newData.push({
+        value: element,
+        svg: {
+          fill: 'green',
+        },
+      });
+    });
+
+    return newData;
+  }
+
+  const data = [
+    {
+      value: 50,
+    },
+    {
+      value: 10,
+      svg: {
+        fill: 'rgba(134, 65, 244, 0.5)',
+      },
+    },
+    {
+      value: 40,
+      svg: {
+        stroke: 'purple',
+        strokeWidth: 2,
+        fill: 'white',
+        strokeDasharray: [4, 2],
+      },
+    },
+    {
+      value: 85,
+      svg: {
+        fill: 'green',
+      },
+    },
+  ];
+
+  const CUT_OFF = 20;
+  const Labels = ({ x, y, bandwidth, data }) => {
+    console.log('data is: ' + data);
+    return data.map((ach, index) => (
       <Text
-        key={ index }
-        x={ x(index) + (bandwidth / 2) }
-        y={ value < CUT_OFF ? y(value) - 10 : y(value) + 15 }
-        fontSize={ 14 }
-        fill={ value >= CUT_OFF ? 'white' : 'black' }
-        alignmentBaseline={ 'middle' }
-        textAnchor={ 'middle' }
+        key={index}
+        x={index + bandwidth / 2}
+        y={ach.value < CUT_OFF ? y(ach.value) - 10 : y(ach.value) + 15}
+        fontSize={14}
+        fill={ach.value >= CUT_OFF ? 'red' : 'black'}
+        alignmentBaseline={'middle'}
+        textAnchor={'middle'}
       >
-        {value}
+        {ach.value}
       </Text>
-    ))
-  )
+    ));
+  };
 
   return (
-    <View style={{ height: useWindowDimensions().height - 300, paddingVertical: 16 }}>
+    <View
+      style={{
+        height: useWindowDimensions().height - 300,
+        paddingVertical: 16,
+      }}
+    >
       <BarChart
         style={{ flex: 1 }}
-        data={achievementsData}
-        svg={{ fill: 'rgba(46, 113, 102, 0.8)' }}
-        contentInset={{ top: 20, bottom: 10 }}
-        spacing={0.2}
+        data={addCustomColour()}
         gridMin={0}
-      >
-      <Labels/>
-      </BarChart>
+        svg={{ fill: 'rgba(134, 65, 244, 0.8)' }}
+        yAccessor={({ item }) => item.value}
+        contentInset={{ top: 20, bottom: 20 }}
+      ></BarChart>
+
       <XAxis
-        style={{ marginHorizontal: -10}}
+        style={{ marginHorizontal: -10 }}
         scale={scale.scaleBand}
         data={xAxisData}
-        formatLabel={(_, index) => xAxisData[ index ]}
+        formatLabel={(_, index) => xAxisData[index]}
         contentInset={{ left: 10, right: 10 }}
-        svg={{ fontSize: 16, fill: 'black'}}
+        svg={{ fontSize: 16, fill: 'black' }}
       />
     </View>
-  )
-
+  );
 }
 
-export default BarChartVerticalWithLabels
+export default BarChartVerticalWithLabels;
