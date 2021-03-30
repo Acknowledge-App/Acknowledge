@@ -59,7 +59,7 @@ function GraphSelectedB({ navigation }) {
         <FAB
           style={styles.fabAdd}
           small
-          label="Toggle graph"
+          label="                               Toggle graph                                 "
           onPress={() => navigation.navigate('GraphSelectedA')}
         />
       </View>

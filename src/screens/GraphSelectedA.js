@@ -45,7 +45,7 @@ function GraphSelectedA({ navigation }) {
         <FAB
           style={styles.fabAdd}
           small
-          label="Toggle graph"
+          label="                               Toggle graph                                 "
           onPress={() => navigation.navigate('GraphSelectedB')}
         />
       </View>
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   iconButton: {
-    backgroundColor: 'rgba(46, 113, 102, 0.8)',
+    backgroundColor: 'red',
     position: 'absolute',
     right: 0,
     top: 40,
