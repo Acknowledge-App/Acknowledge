@@ -60,7 +60,7 @@ function HomeScreen({ navigation }) {
       <FAB
         style={styles.fabAdd}
         small
-        label="Add an achievement now!"
+        label="                      Add an achievement now!                      "
         onPress={() => navigation.navigate('AddAchievement')}
       />
       <Text style={styles.Achieved}>Already Achieved</Text>
