@@ -8,46 +8,21 @@ function BarChartVerticalWithLabels(props) {
   const achievementsData = props.data;
   const xAxisData = props.xAxisData;
 
+  const graphColors = ['#9352EB', '#EB5A23', '#3BEBCA', '#EBE62F', '#f542d7'];
+
   function addCustomColour() {
     let newData = [];
-    achievementsData.forEach((element) => {
+    achievementsData.forEach((element, index) => {
       newData.push({
         value: element,
         svg: {
-          fill: 'green',
+          fill: graphColors[index],
         },
       });
     });
 
     return newData;
   }
-
-  const data = [
-    {
-      value: 50,
-    },
-    {
-      value: 10,
-      svg: {
-        fill: 'rgba(134, 65, 244, 0.5)',
-      },
-    },
-    {
-      value: 40,
-      svg: {
-        stroke: 'purple',
-        strokeWidth: 2,
-        fill: 'white',
-        strokeDasharray: [4, 2],
-      },
-    },
-    {
-      value: 85,
-      svg: {
-        fill: 'green',
-      },
-    },
-  ];
 
   const CUT_OFF = 20;
   const Labels = ({ x, y, bandwidth, data }) => {
