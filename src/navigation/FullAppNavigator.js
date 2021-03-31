@@ -18,7 +18,7 @@ function FullAppNavigator() {
         headerShown: false
       }}
       >
-      {user.uid == undefined ? (
+      {!user.emailVerified ? (
         <Stack.Screen
           name='AuthenticationStack'
           component={AuthenticationStack}

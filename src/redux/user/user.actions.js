@@ -50,13 +50,6 @@ export const getUser = uid => {
 	}
 }
 
-// persist log in
-// var f = Firebase.auth()
-// f.setPersistence('local')
-// .then(function() {
-//   console.log('hi')
-// })
-
 var actionCodeSettings = {
   // URL you want to redirect back to. The domain (www.example.com) for this
   // URL must be in the authorized domains list in the Firebase Console.
@@ -78,19 +71,13 @@ export const signup = () => {
   return async (dispatch, getState) => {
       try {
           const { email, password } = getState().user
-          console.log(email)
-          Firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings)
-            .then(() => {
-              // The link was successfully sent. Inform the user.
-              // Save the email locally so you don't need to ask the user for it again
-              // if they open the link on the same device.
-              console.log('email')
-              window.localStorage.setItem('emailForSignIn', email);
-              const response = Firebase.auth().createUserWithEmailAndPassword(email, password)
+              const response = await Firebase.auth().createUserWithEmailAndPassword(email, password)
+              
               if (response.user.uid) {
                 const user = {
                   uid: response.user.uid,
-                  email: email
+                  email: email,
+                  emailVerified: response.user.emailVerified
                 }
     
                 db.collection('users')
@@ -99,24 +86,15 @@ export const signup = () => {
     
                 dispatch({ type: UserActionTypes.SIGNUP, payload: response.user })
     
-                
-                var userCurrent = Firebase.auth().currentUser;
-    
-                userCurrent.sendEmailVerification().then(function() {
-                  console.log('Email sent.');
-                }).catch(function(error) {
-                  console.log('An error happened.')
+                response.user.sendEmailVerification()
+                  .then(function() {
+                    console.log('Email sent.');
+                  })
+                  .catch(function(error) {
+                    console.log(`An error happened: ${error}`)
                 });
               }
               // ...
-            })
-            .catch((error) => {
-              var errorCode = error.code;
-              var errorMessage = error.message;
-              console.log(errorMessage);
-              // ...
-            });
-         
       } catch (e) {
           alert(e)
       }
