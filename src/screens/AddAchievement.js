@@ -12,9 +12,9 @@ import { addachievementfirebase } from '../redux/achievements/achievements.actio
 
 function AddAchievement({ navigation }) {
   const [achievementTitle, setAchievementTitle] = useState('');
-  // 
+  //
   const [achievementDescription, setDescription] = useState('');
-  // 
+  //
   const [selectedA, setSelectedA] = useState([]);
   const [selectedB, setSelectedB] = useState([]);
 

@@ -3,11 +3,60 @@ import { StyleSheet, View } from 'react-native';
 import { Text, FAB } from 'react-native-paper';
 import PieChartWithDynamicSlices from '../components/PieChartWithDynamicSlices';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import AchievementsCarousel from '../components/AchievementsCarousel';
+import { db } from '../../config/Firebase';
 
 function HomeScreen({ navigation }) {
-  const achievements = useSelector((state) => state.achievements);
+  let dispatch = useDispatch();
+  let achievements = useSelector((state) => state.achievements);
+  let user = useSelector((state) => state.user);
+
+  let setAchievementsState = (data) => {
+    data.map((achievement) => {
+      dispatch({
+        type: 'ADD_ACH',
+        payload: achievement,
+      });
+    });
+  };
+
+  useEffect(() => {
+    fetchAchievements();
+    return clearReduxData();
+  }, []);
+
+  let clearReduxData = () => {
+    dispatch({
+      type: 'CLEAR_ACH',
+      payload: '',
+    });
+  };
+
+  let fetchAchievements = () => {
+    db.collection('users')
+      .doc(user.uid)
+      .collection('achievements')
+      .orderBy('createdAt', 'asc')
+      .onSnapshot(
+        (querySnapshot) => {
+          const newAchievements = [];
+          querySnapshot.forEach((doc) => {
+            const achievement = doc.data();
+            achievement.id = doc.id;
+            newAchievements.push(achievement);
+          });
+          dispatch({
+            type: 'GET_ACHIEVEMENTS',
+            payload: newAchievements,
+          });
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  };
+
   const [count, setCount] = useState([0, 0, 0, 0]);
   const partOfLife = ['Work', 'Self', 'Play', 'Living'];
 
