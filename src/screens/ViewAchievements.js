@@ -11,6 +11,7 @@ function todayDate() {
 }
 
 function ViewAchievements({ navigation }) {
+  const achievements = useSelector((state) => state.achievements);
   var [activeSections, setActiveSections] = useState([]);
   const [counter, setCounter] = useState(0);
   const [startDate, setStartDate] = useState('');
@@ -18,7 +19,6 @@ function ViewAchievements({ navigation }) {
     [todayDate()]: dateHighlight,
   });
   const [filteredAchievements, setFilteredAchievements] = useState([]);
-  const achievements = useSelector((state) => state.achievements);
 
   const dateSelector = (date) => {
     if (counter == 0) {
@@ -118,8 +118,7 @@ function ViewAchievements({ navigation }) {
   }, [achievements]);
 
   function displayNoAchievement() {
-    // find a way to validate with the selected day
-    if (achievements.length <= 1) return 'No achievements yet';
+    if (filteredAchievements.length <= 1) return 'No achievements yet';
 
     let lastAchievementTitle =
       achievements[achievements.length - 1].achievementTitle;
@@ -169,9 +168,7 @@ function ViewAchievements({ navigation }) {
 
           {filteredAchievements.length === 0 ? (
             <View style={styles.titleContainer}>
-              <Text style={styles.title}>
-                {'No achievements for the selected date'}
-              </Text>
+              <Text style={styles.title}>{displayNoAchievement()}</Text>
             </View>
           ) : (
             <Accordion

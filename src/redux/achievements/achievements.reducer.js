@@ -8,13 +8,6 @@ function achievementsReducer(state = initialState, action) {
   switch (type) {
     case AchievementActionTypes.GET_ACHIEVEMENTS:
       return payload;
-    case 'ADD_ACH':
-      let output = Object.assign({}, state, {
-        ...state.achievements,
-        payload,
-      });
-      console.log('out: ' + output);
-      return output;
     case 'CLEAR_ACH':
       return initialState;
     default:

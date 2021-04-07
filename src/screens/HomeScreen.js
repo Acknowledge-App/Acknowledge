@@ -11,15 +11,9 @@ function HomeScreen({ navigation }) {
   let dispatch = useDispatch();
   let achievements = useSelector((state) => state.achievements);
   let user = useSelector((state) => state.user);
-
-  let setAchievementsState = (data) => {
-    data.map((achievement) => {
-      dispatch({
-        type: 'ADD_ACH',
-        payload: achievement,
-      });
-    });
-  };
+  const [count, setCount] = useState([0, 0, 0, 0]);
+  const partOfLife = ['Work', 'Self', 'Play', 'Living'];
+  const graphColors = ['#9352EB', '#EB5A23', '#3BEBCA', '#EBE62F'];
 
   useEffect(() => {
     fetchAchievements();
@@ -57,9 +51,6 @@ function HomeScreen({ navigation }) {
       );
   };
 
-  const [count, setCount] = useState([0, 0, 0, 0]);
-  const partOfLife = ['Work', 'Self', 'Play', 'Living'];
-
   const countOccurrences = (arr, val) =>
     arr.reduce((a, v) => (v === val ? a + 1 : a), 0);
 
@@ -84,8 +75,6 @@ function HomeScreen({ navigation }) {
   useEffect(() => {
     countLabels();
   }, [achievements]);
-
-  const graphColors = ['#9352EB', '#EB5A23', '#3BEBCA', '#EBE62F'];
 
   return (
     <>
