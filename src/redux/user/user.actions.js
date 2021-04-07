@@ -105,7 +105,7 @@ export const signup = () => {
     
                 response.user.sendEmailVerification()
                   .then(function() {
-                    alert('Please check your inbox/spam foler in your e-mail to get verfied.')
+                    alert('Please check your inbox/spam folder in your e-mail to get verified.')
                     console.log('Email sent.');
                   })
                   .catch(function(error) {
@@ -117,8 +117,6 @@ export const signup = () => {
           alert(e)
       }
       // ...
-    } catch (e) {
-      alert(e);
     }
   };
-};
+
