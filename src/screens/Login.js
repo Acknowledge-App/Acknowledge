@@ -52,10 +52,19 @@ class Login extends React.Component {
           >
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
+
           <TouchableOpacity
             style={styles.button}
+            onPress={() => this.props.navigation.navigate('PasswordReset')}
+          >
+            <Text style={styles.buttonText}>Forgotten password? </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.signUpButton}
             onPress={() => this.props.navigation.navigate('Signup')}
           >
+
             <Text style={styles.buttonTextLong}>
               Don't have an account yet? {'\n'} Sign up
             </Text>
@@ -83,7 +92,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   button: {
-    marginTop: 30,
+    marginTop: 20,
     marginBottom: 20,
     paddingVertical: 5,
     alignItems: 'center',
@@ -93,6 +102,18 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: 300,
   },
+  signUpButton:{
+    marginTop: 70,
+    marginBottom: 20,
+    paddingVertical: 5,
+    alignItems: 'center',
+    backgroundColor: '#60DBC5',
+    borderColor: '#60DBC5',
+    borderWidth: 1,
+    borderRadius: 5,
+    width: 300,
+  }
+  ,
   buttonText: {
     fontSize: 20,
     fontWeight: 'bold',
