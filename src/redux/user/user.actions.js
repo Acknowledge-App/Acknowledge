@@ -42,6 +42,7 @@ export const login = () => {
         .set(user)
 
         dispatch({ type: UserActionTypes.LOGIN, payload: response.user });
+        
       }
       dispatch(getUser(response.user.uid));
     } catch (e) {
@@ -54,13 +55,6 @@ export const getUser = (uid) => {
   return async (dispatch, getState) => {
     try {
       const user = await db.collection('users').doc(uid).get();
-      //console.log(user.data());
-
-      // const user = {
-      //   uid: user.uid,
-      //   email: user.email,
-      //   emailVerified: user.emailVerified,
-      // };
 
       dispatch({ type: UserActionTypes.LOGIN, payload: user.data() });
     } catch (e) {
@@ -69,22 +63,6 @@ export const getUser = (uid) => {
   };
 };
 
-// var actionCodeSettings = {
-//   // URL you want to redirect back to. The domain (www.example.com) for this
-//   // URL must be in the authorized domains list in the Firebase Console.
-//   url: 'https://access-db-8a356.firebaseapp.com',
-//   // This must be true.
-//   handleCodeInApp: true,
-//   iOS: {
-//     bundleId: 'com.example.ios',
-//   },
-//   android: {
-//     packageName: 'com.example.android',
-//     installApp: true,
-//     minimumVersion: '12',
-//   },
-//   dynamicLinkDomain: 'example.page.link',
-// };
 
 export const signup = () => {
   return async (dispatch, getState) => {
@@ -92,13 +70,18 @@ export const signup = () => {
           const { email, password } = getState().user
               const response = await Firebase.auth().createUserWithEmailAndPassword(email, password)
               
-              // if (response.user.uid) {
-                // const user = {
-                //   uid: response.user.uid,
-                //   email: email,
-                //   emailVerified: response.user.emailVerified
-                // }
-
+              if (response.user.uid)
+               {
+                const user = {
+                  uid: response.user.uid,
+                  email: email
+                }
+                db.collection('users')
+                  .doc(response.user.uid)
+                  .set(user)
+    
+                dispatch({ type: UserActionTypes.SIGNUP, payload: response.user })
+    
                 response.user.sendEmailVerification()
                   .then(function() {
                     alert('Please check your inbox/spam folder in your e-mail to get verified.')
@@ -108,8 +91,7 @@ export const signup = () => {
                   .catch(function(error) {
                     console.log(`An error happened: ${error}`)
                 });
-
-      } catch (e) {
+      }} catch (e) {
           alert(e)
       }
       // ...
