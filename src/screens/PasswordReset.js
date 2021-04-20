@@ -29,7 +29,7 @@ class Password extends React.Component {
     return (
       <>
         <View style={styles.container}>
-          <Text style={styles.text}>Enter in your email</Text>
+          <Text style={styles.text}>Enter your Email</Text>
           <TextInput
             style={styles.inputBox}
             value={this.props.user.email}
@@ -40,9 +40,9 @@ class Password extends React.Component {
         
           <TouchableOpacity
             style={styles.button}
-             onPress={() => this.props.handlePasswordReset}
+             onPress={this.handlePasswordReset}
           >
-            <Text style={styles.buttonText}>Reset password link </Text>
+            <Text style={styles.buttonText}>Reset password </Text>
           </TouchableOpacity>
 
         </View>
