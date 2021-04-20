@@ -9,6 +9,31 @@ export const updateEmail = (email) => {
   };
 };
 
+export const passwordReset = () => {
+
+    return async (dispatch, getState) => {
+      try {
+
+
+        var emailAddress = "jackoverton21@gmail.com";
+
+      firebase.auth().sendPasswordResetEmail(emailAddress).then(function() {
+        alert("Please check your inbox/spam folder in your e-mail to reset the password")
+        console.log("password reset sent to email")
+        console.log(emailAddress) // Email sent.
+      }).catch(function(error) {
+        // An error happened.
+        console.log("error")
+        alert("Didnt work")
+      });
+
+    }catch (e) {
+        alert('Broken at Password Reset ' + e);
+    }
+
+  }
+}
+
 export const updatePassword = (password) => {
   return {
     type: UserActionTypes.UPDATE_PASSWORD,
@@ -45,7 +70,8 @@ export const login = () => {
         
       }
       dispatch(getUser(response.user.uid));
-    } catch (e) {
+    } 
+    catch (e) {
       alert('Log In: ' + e);
     }
   };

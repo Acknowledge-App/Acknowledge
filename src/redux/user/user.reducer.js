@@ -12,6 +12,8 @@ const userReducer = (state = {}, action) => {
             return { ...state, email: action.payload }
         case UserActionTypes.UPDATE_PASSWORD:
             return { ...state, password: action.payload }
+        case UserActionTypes.PASSWORD_RESET:
+            return action.payload 
         default:
             return state
     }

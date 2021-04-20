@@ -11,22 +11,26 @@ import {
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
+  passwordReset,
   updateEmail,
   updatePassword,
   login,
   getUser,
+
 } from '../redux/user/user.actions';
+
 import Firebase from '../../config/Firebase';
 
 class Password extends React.Component {
- 
-  
+  handlePasswordReset = () => {
+    this.props.passwordReset();
+  };
 
   render() {
     return (
       <>
         <View style={styles.container}>
-          <Text style={styles.text}>Enter in your email</Text>
+          <Text style={styles.text}>Enter email</Text>
           <TextInput
             style={styles.inputBox}
             value={this.props.user.email}
@@ -35,11 +39,8 @@ class Password extends React.Component {
             autoCapitalize="none"
           />
         
-          <TouchableOpacity
-            style={styles.button}
-            // onPress={() => this.props.login()}
-          >
-            <Text style={styles.buttonText}>Reset password link </Text>
+          <TouchableOpacity style={styles.button} onPress={() => this.props.handlePasswordReset}>
+            <Text style={styles.buttonText}>Send reset password link </Text>
           </TouchableOpacity>
 
         </View>
@@ -115,7 +116,7 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
-    { updateEmail, updatePassword, login, getUser },
+    { updateEmail, updatePassword, login, getUser,passwordReset },
     dispatch
   );
 };
@@ -126,4 +127,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Password);
