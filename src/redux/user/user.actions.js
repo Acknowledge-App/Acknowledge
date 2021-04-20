@@ -63,6 +63,26 @@ export const getUser = (uid) => {
   };
 };
 
+export const passwordReset = () => {
+    return async (dispatch, getState) => {
+      try {
+        //const { email } = getState().user;
+        var emailAddress = "jackoverton21@gmail.com";
+
+      firebase.auth().sendPasswordResetEmail(emailAddress).then(function() {
+        alert("Please check your inbox/spam folder in your e-mail to reset the password")
+        console.log("password reset sent to email")
+        console.log(emailAddress) // Email sent.
+      }).catch(function(error) {
+        // An error happened.
+        console.log("error")
+        alert("Didnt work")
+      });
+    }catch (e) {
+        alert('Broken at Password Reset ' + e);
+    }
+  }
+}
 
 export const signup = () => {
   return async (dispatch, getState) => {

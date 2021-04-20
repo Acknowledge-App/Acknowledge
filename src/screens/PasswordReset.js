@@ -15,12 +15,15 @@ import {
   updatePassword,
   login,
   getUser,
+  passwordReset
 } from '../redux/user/user.actions';
 import Firebase from '../../config/Firebase';
 
 class Password extends React.Component {
- 
-  
+  handlePasswordReset = () => {
+    this.props.passwordReset();
+  };
+
 
   render() {
     return (
@@ -37,7 +40,7 @@ class Password extends React.Component {
         
           <TouchableOpacity
             style={styles.button}
-            // onPress={() => this.props.login()}
+             onPress={() => this.props.handlePasswordReset}
           >
             <Text style={styles.buttonText}>Reset password link </Text>
           </TouchableOpacity>
@@ -115,7 +118,7 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
-    { updateEmail, updatePassword, login, getUser },
+    { updateEmail, updatePassword, login, getUser, passwordReset },
     dispatch
   );
 };
