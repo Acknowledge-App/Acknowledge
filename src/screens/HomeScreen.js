@@ -3,13 +3,53 @@ import { StyleSheet, View } from 'react-native';
 import { Text, FAB } from 'react-native-paper';
 import PieChartWithDynamicSlices from '../components/PieChartWithDynamicSlices';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import AchievementsCarousel from '../components/AchievementsCarousel';
+import { db } from '../../config/Firebase';
 
 function HomeScreen({ navigation }) {
-  const achievements = useSelector((state) => state.achievements);
+  let dispatch = useDispatch();
+  let achievements = useSelector((state) => state.achievements);
+  let user = useSelector((state) => state.user);
   const [count, setCount] = useState([0, 0, 0, 0]);
   const partOfLife = ['Work', 'Self', 'Play', 'Living'];
+  const graphColors = ['#9352EB', '#EB5A23', '#3BEBCA', '#EBE62F'];
+
+  useEffect(() => {
+    fetchAchievements();
+    return clearReduxData();
+  }, []);
+
+  let clearReduxData = () => {
+    dispatch({
+      type: 'CLEAR_ACH',
+      payload: '',
+    });
+  };
+
+  let fetchAchievements = () => {
+    db.collection('users')
+      .doc(user.uid)
+      .collection('achievements')
+      .orderBy('createdAt', 'asc')
+      .onSnapshot(
+        (querySnapshot) => {
+          const newAchievements = [];
+          querySnapshot.forEach((doc) => {
+            const achievement = doc.data();
+            achievement.id = doc.id;
+            newAchievements.push(achievement);
+          });
+          dispatch({
+            type: 'GET_ACHIEVEMENTS',
+            payload: newAchievements,
+          });
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  };
 
   const countOccurrences = (arr, val) =>
     arr.reduce((a, v) => (v === val ? a + 1 : a), 0);
@@ -36,8 +76,6 @@ function HomeScreen({ navigation }) {
     countLabels();
   }, [achievements]);
 
-  const graphColors = ['#9352EB', '#EB5A23', '#3BEBCA', '#EBE62F'];
-
   return (
     <>
       <View style={styles.container}>
@@ -60,7 +98,7 @@ function HomeScreen({ navigation }) {
       <FAB
         style={styles.fabAdd}
         small
-        label="Add an achievement now!"
+        label="                      Add an achievement now!                      "
         onPress={() => navigation.navigate('AddAchievement')}
       />
       <Text style={styles.Achieved}>Already Achieved</Text>

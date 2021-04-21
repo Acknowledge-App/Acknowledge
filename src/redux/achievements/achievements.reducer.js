@@ -1,15 +1,18 @@
-import { AchievementActionTypes } from './achievements.types'
+import { AchievementActionTypes } from './achievements.types';
 
-const initialState = []
+const initialState = [];
 
 function achievementsReducer(state = initialState, action) {
-  switch (action.type) {
+  const { type, payload } = action;
+
+  switch (type) {
     case AchievementActionTypes.GET_ACHIEVEMENTS:
-      return action.payload
-    
+      return payload;
+    case 'CLEAR_ACH':
+      return initialState;
     default:
-      return state
+      return state;
   }
 }
 
-export default achievementsReducer
+export default achievementsReducer;

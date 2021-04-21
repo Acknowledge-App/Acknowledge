@@ -1,4 +1,4 @@
-import { UserActionTypes } from './user.types'
+import { UserActionTypes } from './user.types';
 
 const userReducer = (state = {}, action) => {
     switch (action.type) {
@@ -19,4 +19,4 @@ const userReducer = (state = {}, action) => {
     }
 }
 
-export default userReducer
+export default userReducer;

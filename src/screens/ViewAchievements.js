@@ -1,30 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, FlatList, ScrollView } from 'react-native';
-import { Text, FAB, List } from 'react-native-paper';
+import { StyleSheet, View, ScrollView } from 'react-native';
+import { Text, FAB } from 'react-native-paper';
 import { Calendar } from 'react-native-calendars';
-
-
+import Accordion from 'react-native-collapsible/Accordion';
 // Access state in Redux
-import { useSelector, useDispatch } from 'react-redux';
-import { getachievementsfirebase } from '../redux/achievements/achievements.actions';
+import { useSelector } from 'react-redux';
 
 function todayDate() {
   return new Date().toISOString().split('T')[0];
 }
 
 function ViewAchievements({ navigation }) {
+  const achievements = useSelector((state) => state.achievements);
+  var [activeSections, setActiveSections] = useState([]);
   const [counter, setCounter] = useState(0);
   const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
   const [markedDates, setMarkedDates] = useState({
     [todayDate()]: dateHighlight,
   });
-  const [dateArr, setDateArr] = useState([]);
   const [filteredAchievements, setFilteredAchievements] = useState([]);
-
-  const dispatch = useDispatch();
-  const getAchievementsFirebase = () => dispatch(getachievementsfirebase());
-  const achievements = useSelector((state) => state.achievements);
 
   const dateSelector = (date) => {
     if (counter == 0) {
@@ -34,11 +28,6 @@ function ViewAchievements({ navigation }) {
       });
       setStartDate(date.dateString);
       setCounter(1);
-      // } else if (counter === 1 && date.dateString === startDate) {
-      //   setMarkedDates({
-      //     [date.dateString]: initialCalendarHighlight,
-      //   });
-      //   setCounter(0);
     } else {
       setMarkedDates({
         [startDate]: dateHighlight,
@@ -61,7 +50,6 @@ function ViewAchievements({ navigation }) {
     setFilteredAchievements(filteredArray);
   };
 
-  // potential bug find more clear way to generate list of dates
   var arrayFromSelectedDates = function (lastSelected, newArray) {
     for (
       var newDateObject = new Date(startDate);
@@ -69,13 +57,12 @@ function ViewAchievements({ navigation }) {
       newDateObject.setDate(newDateObject.getDate() + 1)
     ) {
       newArray.push(convertDate(newDateObject));
-      setDateArr(newArray);
       filterAchievementWithDates(newArray);
     }
   };
 
   let setRangeOfDates = (date) => {
-    let daysArray = []; // <---- check this array
+    let daysArray = [];
     arrayFromSelectedDates(date.dateString, daysArray);
 
     setMarkedDates(
@@ -122,72 +109,76 @@ function ViewAchievements({ navigation }) {
     setFilteredAchievements(filteredArray);
   }
 
-  // Call firebase database and add achievements to firebase store
   useEffect(() => {
-    getAchievementsFirebase();
-  }, []);
+    let todayDate = new Date(Date.now());
+    let initialDateObj = {
+      dateString: convertDate(todayDate),
+    };
+    dateSelector(initialDateObj);
+  }, [achievements]);
 
-  function getLastAchievement() {
-    if (achievements != null && achievements.length != 0) {
-      return achievements[achievements.length - 1].achievementTitle;
-    }
-    return '';
+  function displayNoAchievement() {
+    if (filteredAchievements.length <= 1) return 'No achievements yet';
+
+    let lastAchievementTitle =
+      achievements[achievements.length - 1].achievementTitle;
+
+    let lastAchievementSeconds =
+      achievements[achievements.length - 1].createdAt.seconds;
+    let lastAchievementDate = secondsToDate(lastAchievementSeconds)
+      .toString()
+      .split('GMT')[0];
+
+    return `The Last achievement was ${lastAchievementTitle} from ${lastAchievementDate}`;
   }
 
-  function getLastAchievementDate() {
-    if (achievements != null && achievements.length != 0) {
-      let lastAchievement =
-        achievements[achievements.length - 1].createdAt.seconds;
-      return secondsToDate(lastAchievement).toString().split('GMT')[0];
-    }
-    return '';
-  }
+  let _renderHeader = (section) => {
+    return (
+      <View style={styles.listTitle}>
+        <Text style={styles.listTitle}>{section.achievementTitle}</Text>
+      </View>
+    );
+  };
+
+  let _renderContent = (section) => {
+    return (
+      <View style={styles.content}>
+        <Text style={styles.titleDescription}>
+          {section.achievementDescription}{' '}
+        </Text>
+      </View>
+    );
+  };
+
+  let _updateSections = (activeSections) => {
+    setActiveSections(activeSections);
+  };
 
   return (
     <>
-    
-    <View style={styles.container}>
-    <ScrollView>
-      <Calendar
-        onDayPress={(day) => {
-          dateSelector(day);
-        }}
-        markedDates={markedDates}
-        markingType={'period'}
-      />
-
-      
-
-        {filteredAchievements.length === 0 ? (
-          <View style={styles.titleContainer}>
-            <Text style={styles.title}>
-              The Last achievement was {getLastAchievement()} from{' '}
-              {getLastAchievementDate()}
-            </Text>
-          </View>
-        ) : (
-          <FlatList
-            data={filteredAchievements}
-            renderItem={({ item }) => (
-              <List.Item
-                title={item.achievementTitle}
-                description={[
-                  item.selectedA.join(),
-                  ',',
-                  item.selectedB.join(),
-                ]}
-                descriptionNumberOfLines={2}
-                titleStyle={styles.listTitle}
-                onPress={() =>
-                  console.log(
-                    `Achievment: id:${item.id} with title: ${item.achievementTitle}`
-                  )
-                }
-              />
-            )}
-            keyExtractor={(item) => item.id.toString()}
+      <View style={styles.container}>
+        <ScrollView>
+          <Calendar
+            onDayPress={(day) => {
+              dateSelector(day);
+            }}
+            markedDates={markedDates}
+            markingType={'period'}
           />
-        )}
+
+          {filteredAchievements.length === 0 ? (
+            <View style={styles.titleContainer}>
+              <Text style={styles.title}>{displayNoAchievement()}</Text>
+            </View>
+          ) : (
+            <Accordion
+              sections={filteredAchievements}
+              activeSections={activeSections}
+              renderHeader={_renderHeader}
+              renderContent={_renderContent}
+              onChange={_updateSections}
+            />
+          )}
         </ScrollView>
         <FAB
           style={styles.fabAdd}
@@ -196,9 +187,7 @@ function ViewAchievements({ navigation }) {
           label="Add Achievement"
           onPress={() => navigation.navigate('AddAchievement')}
         />
-        
       </View>
-      
     </>
   );
 }
@@ -216,7 +205,15 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
+    flex: 1,
     fontSize: 20,
+  },
+  titleDescription: {
+    marginBottom: 5,
+    fontSize: 15,
+    textAlign: 'center',
+    marginLeft: 3,
+    marginRight: 3,
   },
   fabAdd: {
     position: 'absolute',
@@ -225,6 +222,8 @@ const styles = StyleSheet.create({
     bottom: 10,
   },
   listTitle: {
+    marginBottom: 8,
+    textAlign: 'center',
     fontSize: 20,
   },
 });
