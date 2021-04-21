@@ -6,26 +6,21 @@ import {
   TouchableOpacity,
   Text,
 } from 'react-native';
-
 // Imports for redux state storage
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
-  passwordReset,
   updateEmail,
   updatePassword,
   login,
   getUser,
   passwordReset
 } from '../redux/user/user.actions';
-
 import Firebase from '../../config/Firebase';
-
 class Password extends React.Component {
   handlePasswordReset = () => {
     this.props.passwordReset();
   };
-  
   render() {
     return (
       <>
@@ -38,20 +33,17 @@ class Password extends React.Component {
             placeholder="Email"
             autoCapitalize="none"
           />
-        
           <TouchableOpacity
             style={styles.button}
              onPress={this.handlePasswordReset}
           >
             <Text style={styles.buttonText}>Reset password </Text>
           </TouchableOpacity>
-
         </View>
       </>
     );
   }
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -116,18 +108,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
-
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
-    { updateEmail, updatePassword, login, getUser,passwordReset },
+    { updateEmail, updatePassword, login, getUser, passwordReset },
     dispatch
   );
 };
-
 const mapStateToProps = (state) => {
   return {
     user: state.user,
   };
 };
-
 export default connect(mapStateToProps, mapDispatchToProps)(Password);
