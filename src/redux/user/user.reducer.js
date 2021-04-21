@@ -15,7 +15,7 @@ const userReducer = (state = {}, action) => {
         case UserActionTypes.PASSWORD_RESET:
             return action.payload 
         default:
-            return state
+        return state
     }
 }
 
