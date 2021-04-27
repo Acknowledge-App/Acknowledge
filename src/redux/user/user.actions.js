@@ -12,6 +12,22 @@ export const updatePassword = (password) => {
     payload: password,
   };
 };
+
+
+export const updateUsername = (user) => {
+  return async (dispatch, getState) => {
+    try {
+      const { uid } = getState().user
+      db.collection('users').doc(uid).set({username: user})
+        
+      console.log(user.username)
+      console.log('Changed Username')
+    } catch (e) {
+        alert(e)
+    }
+  }
+}
+
 export const logout = () => {
   return {
     type: UserActionTypes.LOGOUT,
@@ -30,6 +46,7 @@ export const login = () => {
           uid: response.user.uid,
           email: response.user.email,
           emailVerified: response.user.emailVerified,
+          username: null,
         };
         db.collection('users')
         .doc(response.user.uid)

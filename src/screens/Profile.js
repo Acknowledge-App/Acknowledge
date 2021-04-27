@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Switch } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Switch, TextInput } from 'react-native';
 
 import Firebase from '../../config/Firebase';
-import { logout } from '../redux/user/user.actions';
+import { logout, updateUsername } from '../redux/user/user.actions';
 import { useSelector, useDispatch } from 'react-redux';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -83,10 +83,29 @@ function Profile() {
     logOut();
   };
 
+  const handleSubmitUsername = () => {
+    this.props.updateUsername();
+  };
+
   return (
     <>
       <View>
         <Text style={styles.text}>{user.email}</Text>
+
+      <View style={styles.center}>
+      <Text style={styles.text}>{user.username}</Text>
+        <TextInput
+             style={styles.inputBox}
+            // onChangeText={(name) => this.props.updateUsername(name)}
+            placeholder="Enter a Username"
+            autoCapitalize="none"
+          />
+          <TouchableOpacity style={styles.button} onPress={handleSubmitUsername(name)}>
+            <Text style={styles.buttonText}>Submit Username</Text>
+          </TouchableOpacity>
+          </View>
+
+
         <View style={{ flexDirection: 'row' }}>
           <Text style={styles.switchText}>Enable push notifications</Text>
           <Switch
@@ -153,6 +172,15 @@ const styles = StyleSheet.create({
     right: 0,
     top: 40,
     margin: 10,
+  },
+  inputBox: {
+    width: '85%',
+    margin: 10,
+    padding: 15,
+    fontSize: 16,
+    borderColor: '#d3d3d3',
+    borderBottomWidth: 1,
+    textAlign: 'center',
   },
 });
 
