@@ -14,11 +14,11 @@ export const updatePassword = (password) => {
 };
 
 
-export const updateUsername = (user) => {
+export const updateUsername = (nickname) => {
   return async (dispatch, getState) => {
     try {
       const { uid } = getState().user
-      db.collection('users').doc(uid).set({username: user})
+      db.collection('users').doc(uid).set({username: nickname})
         
       console.log(user.username)
       console.log('Changed Username')

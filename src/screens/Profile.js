@@ -6,6 +6,8 @@ import { logout, updateUsername } from '../redux/user/user.actions';
 import { useSelector, useDispatch } from 'react-redux';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 // Imports for Push Notifications
 
 import * as Notifications from 'expo-notifications';
@@ -84,23 +86,27 @@ function Profile() {
   };
 
   const handleSubmitUsername = () => {
-    this.props.updateUsername();
+    updateUsername();
   };
 
   return (
+
     <>
       <View>
         <Text style={styles.text}>{user.email}</Text>
 
       <View style={styles.center}>
-      <Text style={styles.text}>{user.username}</Text>
+
+      {/* <Text style={styles.text}>{user.username}</Text> */}
+
         <TextInput
              style={styles.inputBox}
-            // onChangeText={(name) => this.props.updateUsername(name)}
+             value={user.username}
+          onChangeText={(username) => updateUsername(username)}
             placeholder="Enter a Username"
             autoCapitalize="none"
           />
-          <TouchableOpacity style={styles.button} onPress={handleSubmitUsername(name)}>
+          <TouchableOpacity style={styles.button} onPress={handleSubmitUsername()}>
             <Text style={styles.buttonText}>Submit Username</Text>
           </TouchableOpacity>
           </View>
@@ -184,4 +190,19 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Profile;
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(
+    {updateUsername },
+    dispatch
+  );
+};
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+
+
+
