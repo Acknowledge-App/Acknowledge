@@ -2,7 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Switch, TextInput } from 'react-native';
 
 import Firebase from '../../config/Firebase';
-import { logout, updateUsername } from '../redux/user/user.actions';
+import { logout, updateUsername as sendUpdateUsername } from '../redux/user/user.actions';
+import {
+  updateUsername
+} from '../redux/user/user.action-creators';
 import { useSelector, useDispatch } from 'react-redux';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -31,7 +34,7 @@ function Profile() {
   const [date, setDate] = useState(new Date(51730000));
   const [hours, setHours] = useState(12);
   const [minutes, setMinutes] = useState(0);
-
+  const [proposeUserName, setProposeUserName] = useState('')
   // State and Refs for push notifications
   const [notifications, setNotifications] = useState(false);
   const [expoPushToken, setExpoPushToken] = useState('');
@@ -85,8 +88,9 @@ function Profile() {
     logOut();
   };
 
-  const handleSubmitUsername = () => {
-    updateUsername();
+  const handleSubmitUsername = async () => {
+    const nickname = await updateUsername(user.uid, proposeUserName)
+    // dispatch(sendUpdateUsername(nickname));
   };
 
   return (
@@ -101,12 +105,14 @@ function Profile() {
 
         <TextInput
              style={styles.inputBox}
-             value={user.username}
-          onChangeText={(username) => updateUsername(username)}
+             value={proposeUserName}
+          onChangeText = {
+            (username) => setProposeUserName(username)
+          }
             placeholder="Enter a Username"
             autoCapitalize="none"
           />
-          <TouchableOpacity style={styles.button} onPress={handleSubmitUsername()}>
+          <TouchableOpacity style={styles.button} onPress={handleSubmitUsername}>
             <Text style={styles.buttonText}>Submit Username</Text>
           </TouchableOpacity>
           </View>

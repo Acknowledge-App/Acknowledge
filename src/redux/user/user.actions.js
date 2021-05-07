@@ -13,19 +13,11 @@ export const updatePassword = (password) => {
   };
 };
 
-
 export const updateUsername = (nickname) => {
-  return async (dispatch, getState) => {
-    try {
-      const { uid } = getState().user
-      db.collection('users').doc(uid).set({username: nickname})
-        
-      console.log(user.username)
-      console.log('Changed Username')
-    } catch (e) {
-        alert(e)
-    }
-  }
+  return {
+    type: UserActionTypes.UPDATE_USERNAME,
+    payload: nickname,
+  };
 }
 
 export const logout = () => {
