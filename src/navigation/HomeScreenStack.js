@@ -3,7 +3,8 @@ import { createStackNavigator } from '@react-navigation/stack'
 
 import HomeScreen from '../screens/HomeScreen';
 import GraphSelectedA from '../screens/GraphSelectedA';
-import AddAchievement from '../screens/AddAchievement'
+import GraphSelectedB from '../screens/GraphSelectedB';
+import AddAchievement from '../screens/AddAchievement';
 
 const Stack = createStackNavigator()
 
@@ -43,6 +44,13 @@ function HomeScreenStack() {
           options={{
             title: 'Acknowledge',
           }}
+        />
+        < Stack.Screen
+        name='GraphSelectedB'
+        component = {GraphSelectedB}
+        options = {{
+          title: 'Acknowledge',
+        }}
         />
     </Stack.Navigator>
   );
