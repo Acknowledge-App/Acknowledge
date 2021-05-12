@@ -38,11 +38,11 @@ export const login = () => {
           uid: response.user.uid,
           email: response.user.email,
           emailVerified: response.user.emailVerified,
-          username: null,
+          // username: (null || response.user.username)
         };
         db.collection('users')
         .doc(response.user.uid)
-        .set(user)
+        .update(user)
         dispatch({ type: UserActionTypes.LOGIN, payload: response.user });
       }
       dispatch(getUser(response.user.uid));

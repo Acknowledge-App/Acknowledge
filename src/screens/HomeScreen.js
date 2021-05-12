@@ -16,6 +16,7 @@ function HomeScreen({ navigation }) {
   const graphColors = ['#9352EB', '#EB5A23', '#3BEBCA', '#EBE62F'];
 
   useEffect(() => {
+    checkUsername()
     fetchAchievements();
     return clearReduxData();
   }, []);
@@ -26,6 +27,15 @@ function HomeScreen({ navigation }) {
       payload: '',
     });
   };
+
+  let checkUsername = () => {
+    if(user.username != null){
+      return "Welcome to Acknowledge\n" + user.username
+    }else {
+      return "Welcome to Acknowledge"
+    }
+
+  }
 
   let fetchAchievements = () => {
     db.collection('users')
@@ -80,7 +90,7 @@ function HomeScreen({ navigation }) {
     <>
       <View style={styles.container}>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>Welcome to Acknowledge</Text>
+          <Text style={styles.title}> {checkUsername()}</Text>
         </View>
       </View>
 
