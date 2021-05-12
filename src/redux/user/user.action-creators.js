@@ -4,8 +4,8 @@ import Firebase, {
 
 export const updateUsername = (uid, nickname) => {
   return new Promise(done => {
-       db.collection('users').doc(uid).set({
-           username: nickname
+       db.collection('users').doc(uid).update({
+            username: nickname
          }).then((result) => {
            console.log(result)
            done(true)
