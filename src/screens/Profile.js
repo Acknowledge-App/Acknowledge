@@ -1,11 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Switch } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Switch, TextInput } from 'react-native';
 
 import Firebase from '../../config/Firebase';
-import { logout } from '../redux/user/user.actions';
+import { logout, updateUsername as sendUpdateUsername } from '../redux/user/user.actions';
+import {
+  updateUsername
+} from '../redux/user/user.action-creators';
 import { useSelector, useDispatch } from 'react-redux';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 // Imports for Push Notifications
 
 import * as Notifications from 'expo-notifications';
@@ -29,7 +34,7 @@ function Profile() {
   const [date, setDate] = useState(new Date(51730000));
   const [hours, setHours] = useState(12);
   const [minutes, setMinutes] = useState(0);
-
+  const [proposeUserName, setProposeUserName] = useState('')
   // State and Refs for push notifications
   const [notifications, setNotifications] = useState(false);
   const [expoPushToken, setExpoPushToken] = useState('');
@@ -83,10 +88,37 @@ function Profile() {
     logOut();
   };
 
+  const handleSubmitUsername = async () => {
+    const nickname = await updateUsername(user.uid, proposeUserName)
+    // dispatch(sendUpdateUsername(nickname));
+    alert("Username updated \n Please sign out to see changes");
+  };
+
   return (
+
     <>
       <View>
         <Text style={styles.text}>{user.email}</Text>
+
+      <View style={styles.center}>
+
+      {/* <Text style={styles.text}>{user.username}</Text> */}
+
+        <TextInput
+             style={styles.inputBox}
+             value={proposeUserName}
+          onChangeText = {
+            (username) => setProposeUserName(username)
+          }
+            placeholder="Enter a Username"
+            autoCapitalize="none"
+          />
+          <TouchableOpacity style={styles.button} onPress={handleSubmitUsername}>
+            <Text style={styles.buttonText}>Submit Username</Text>
+          </TouchableOpacity>
+          </View>
+
+
         <View style={{ flexDirection: 'row' }}>
           <Text style={styles.switchText}>Enable push notifications</Text>
           <Switch
@@ -154,6 +186,30 @@ const styles = StyleSheet.create({
     top: 40,
     margin: 10,
   },
+  inputBox: {
+    width: '85%',
+    margin: 10,
+    padding: 15,
+    fontSize: 16,
+    borderColor: '#d3d3d3',
+    borderBottomWidth: 1,
+    textAlign: 'center',
+  },
 });
 
-export default Profile;
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(
+    {updateUsername },
+    dispatch
+  );
+};
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+
+
+

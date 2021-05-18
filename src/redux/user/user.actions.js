@@ -12,6 +12,14 @@ export const updatePassword = (password) => {
     payload: password,
   };
 };
+
+export const updateUsername = (nickname) => {
+  return {
+    type: UserActionTypes.UPDATE_USERNAME,
+    payload: nickname,
+  };
+}
+
 export const logout = () => {
   return {
     type: UserActionTypes.LOGOUT,
@@ -30,10 +38,11 @@ export const login = () => {
           uid: response.user.uid,
           email: response.user.email,
           emailVerified: response.user.emailVerified,
+          // username: (null || response.user.username)
         };
         db.collection('users')
         .doc(response.user.uid)
-        .set(user)
+        .update(user)
         dispatch({ type: UserActionTypes.LOGIN, payload: response.user });
       }
       dispatch(getUser(response.user.uid));
