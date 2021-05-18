@@ -91,6 +91,7 @@ function Profile() {
   const handleSubmitUsername = async () => {
     const nickname = await updateUsername(user.uid, proposeUserName)
     // dispatch(sendUpdateUsername(nickname));
+    alert("Username updated \n Please sign out to see changes");
   };
 
   return (
