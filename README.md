@@ -1,6 +1,10 @@
 # Acknowledge
 
-<img align="right" src="images/access.gif" width="300" />
+
+
+
+
+
 
 **What it is**: This app is a way for people to see & track everything they do
 
@@ -14,6 +18,7 @@ This coding project is being built by a team of coders from Makers Academy, lead
 
 Find out more at [Acknowledge web page](https://acknowledgeyourpower.wordpress.com/)
 
+![gif](https://thumbs.gfycat.com/ShoddyBeneficialHaddock-size_restricted.gif) 
 ## Try out the app now!!!
 
 The app has been deployed to netlify using a web build version of the project. It can be accessed [here](https://access-your-achievements.netlify.app/).
@@ -21,6 +26,7 @@ The app has been deployed to netlify using a web build version of the project. I
 ## Getting Started
 
 To run this project you will need to have the React Native Expo client installed and Node.js. You will also need to have either Xcode or AndroidSDK installed to run the mobile application in an emulator. Therefore it is recommended that you only run this application on your local computer if you already have these installed, else there will be a browser deployment available in the near future.
+
 
 ### Prerequisites
 
