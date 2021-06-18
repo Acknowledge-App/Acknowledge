@@ -5,7 +5,7 @@
     "privacy": "unlisted",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/acknowledge.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -19,7 +19,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.acknowledge.acknowledge"
+      "bundleIdentifier": "com.wordpress.acknowledge"
     },
     "web": {
       "favicon": "./assets/favicon.png"
