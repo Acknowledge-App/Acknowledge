@@ -1,6 +1,8 @@
 import { UserActionTypes } from './user.types';
 
 const userReducer = (state = {}, action) => {
+    console.log('state: ', state)
+    console.log('action: ', action.type)
     switch (action.type) {
         case UserActionTypes.LOGIN:
             return action.payload

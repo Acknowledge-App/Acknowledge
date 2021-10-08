@@ -33,6 +33,7 @@ export const login = () => {
         email,
         password
       );
+      // console.log(response.user)
       if (response.user) {
         const user = {
           uid: response.user.uid,
@@ -41,7 +42,8 @@ export const login = () => {
           // username: (null || response.user.username)
         };
         db.collection("users").doc(response.user.uid).update(user);
-        dispatch({ type: UserActionTypes.LOGIN, payload: response.user });
+        console.log('response.user', response.user)
+        dispatch({ type: UserActionTypes.LOGIN, payload: response.user.email });
       }
       dispatch(getUser(response.user.uid));
     } catch (e) {
@@ -52,7 +54,30 @@ export const login = () => {
 export const getUser = (uid) => {
   return async (dispatch, getState) => {
     try {
-      const user = await db.collection("users").doc(uid).get();
+      // get a document
+      // const user = await db.collection("users").doc(uid).get();
+      // console.log(user)
+      
+      const userRef = await db.collection("users").doc(uid);
+      console.log('userRef: ', userRef.get())
+      console.log('uid: ', uid)
+      const user = await userRef.get();
+      console.log('user', user)
+      if (!user.exists) {
+        console.log('trace user.data()', user.data()) // undefined
+        console.log('No such document!', uid);
+      } else {
+        console.log('Document data:', user.data());
+      }
+      
+      // get all documents
+      // const usersRef = db.collection('users');
+      // const snapshot = await usersRef.get();
+      // snapshot.forEach(doc => {
+      //   console.log(doc.id, '=>', doc.data());
+      //   dispatch({ type: UserActionTypes.LOGIN, payload: snapshot.data() });
+      //   console.log('snapshot data() ', snapshot.data())
+      // });
       dispatch({ type: UserActionTypes.LOGIN, payload: user.data() });
     } catch (e) {
       alert("getUser: " + e);
@@ -92,8 +117,10 @@ export const signup = () => {
           uid: response.user.uid,
           email: email,
         };
-        db.collection("users").doc(response.user.uid).set(user);
-        dispatch({ type: UserActionTypes.SIGNUP, payload: response.user });
+        // console.log('response.user.uid:', response.user.uid)
+        // console.log('user: ', user)
+        let userAddedToDb = await db.collection("users").doc(response.user.uid).set(user);
+        dispatch({ type: UserActionTypes.SIGNUP, payload: userAddedToDb });
         response.user
           .sendEmailVerification()
           .then(function () {
@@ -107,7 +134,7 @@ export const signup = () => {
           });
       }
     } catch (e) {
-      alert(e);
+      alert(`Could not sign up ${e}`);
     }
     // ...
   };
