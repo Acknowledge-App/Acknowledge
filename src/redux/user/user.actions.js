@@ -52,11 +52,14 @@ export const login = () => {
 export const getUser = (uid) => {
   return async (dispatch, getState) => {
     try {
-      const user = await db.collection("users").doc(uid).get();
-      dispatch({ type: UserActionTypes.LOGIN, payload: user.data() });
+      let user = await db.collection("users").doc(uid).get();
+      console.log(user.data())
+      if(typeof user.data() !== 'undefined'){
+        dispatch({ type: UserActionTypes.LOGIN, payload: user.data() });
+      }
     } catch (e) {
       alert("getUser: " + e);
-    }
+    };
   };
 };
 export const passwordReset = () => {
@@ -92,10 +95,10 @@ export const signup = () => {
           uid: response.user.uid,
           email: email,
         };
-        db.collection("users").doc(response.user.uid).set(user);
+        db.collection("users").doc(response.user.uid).set(user); 
         dispatch({ type: UserActionTypes.SIGNUP, payload: response.user });
         response.user
-          .sendEmailVerification()
+          .sendEmailVerification() // don't we need to pass in email here?
           .then(function () {
             alert(
               "Please check your inbox/spam folder in your e-mail to get verified."
