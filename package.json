@@ -1,9 +1,8 @@
 {
-  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "start": "expo start --dev-client",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web",
     "test": "jest",
     "eject": "expo eject"
@@ -28,7 +27,7 @@
     "lodash.remove": "^4.7.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.0.tar.gz",
+    "react-native": "~0.63.4",
     "react-native-calendars": "^1.403.0",
     "react-native-chart-kit": "^6.6.1",
     "react-native-collapsible": "^1.5.3",
@@ -47,7 +46,10 @@
     "react-navigation-stack": "^2.8.2",
     "react-redux": "^7.2.1",
     "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "expo-splash-screen": "~0.8.0",
+    "expo-updates": "~0.4.0",
+    "react-native-unimodules": "~0.12.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
@@ -55,7 +57,11 @@
     "@testing-library/user-event": "^12.2.0",
     "babel-preset-expo": "8.3.0",
     "jest-expo": "^40.0.0",
-    "react-test-renderer": "^16.14.0"
+    "react-test-renderer": "^16.14.0",
+    "babel-jest": "~25.2.6",
+    "jest": "~25.2.6"
   },
-  "private": true
+  "private": true,
+  "name": "Acknowledge",
+  "version": "1.0.0"
 }

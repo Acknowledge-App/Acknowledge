@@ -3,12 +3,14 @@ import { StyleSheet, View, SafeAreaView, ScrollView } from 'react-native';
 import { TextInput, FAB, Text } from 'react-native-paper';
 
 import Checkbox from '../components/checkbox';
+import AchievementMessage from '../components/AchievementMessages';
 
 import firebase from 'firebase';
 import 'firebase/firestore';
 
 import { useDispatch } from 'react-redux';
 import { addachievementfirebase } from '../redux/achievements/achievements.actions';
+
 
 function AddAchievement({ navigation }) {
   const [achievementTitle, setAchievementTitle] = useState('');
@@ -33,6 +35,7 @@ function AddAchievement({ navigation }) {
       selectedB,
       createdAt,
     });
+    AchievementMessage();
     navigation.goBack();
   }
 
