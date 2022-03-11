@@ -52,8 +52,11 @@ export const login = () => {
 export const getUser = (uid) => {
   return async (dispatch, getState) => {
     try {
-      const user = await db.collection("users").doc(uid).get();
-      dispatch({ type: UserActionTypes.LOGIN, payload: user.data() });
+      let user = await db.collection("users").doc(uid).get();
+      console.log(user.data())
+      if(typeof user.data() !== 'undefined'){
+        dispatch({ type: UserActionTypes.LOGIN, payload: user.data() });
+      }
     } catch (e) {
       alert("getUser: " + e);
     }
