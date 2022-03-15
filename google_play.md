@@ -11,13 +11,13 @@
     |---|---|
     |Developer name|my name|
     |Organisation name|Acknowledge/Acknowledge App|
-    |Organisation Address| ?? |
-    |Organisation phone number| Julie's phone number|
+    |Organisation Address| Address TBC (from Julie) |
+    |Organisation phone number|Julie's phone number|
     |Organisation website|https://acknowledgeyourpower.wordpress.com/|
     |||
-    |Contact name|Me/Julie*|
-    |Contact email address|Me/Julie*|
-    |Contact telephone number|Me/Julie*|
-    *I think probably me
+    |Contact name|Julie|
+    |Contact email address|AcknowledgeYourPower@gmail.com|
+    |Contact telephone number|Julie|
+    <!-- *I think probably me -->
 
 * Signing up costs $25 (I presume USD) as a one-off fee according to this guide https://themanifest.com/app-development/blog/publish-app-google-play
