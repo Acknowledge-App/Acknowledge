@@ -13,7 +13,8 @@ function AddAchievement({ navigation }) {
   const [achievementTitle, setAchievementTitle] = useState('');
   let achievements = useSelector((state) => state.achievements);
   const [achievementDescription, setDescription] = useState('');
-  const [showAchievementMessage, setShowAchievementMessage] = useState(false)
+  // Achievement Message hook
+  // const [showAchievementMessage, setShowAchievementMessage] = useState(false)
   //
   const [selectedA, setSelectedA] = useState([]);
   const [selectedB, setSelectedB] = useState([]);
@@ -33,10 +34,11 @@ function AddAchievement({ navigation }) {
       selectedB,
       createdAt,
     });
-    if((achievements?.length + 1) % 5  == 0) {
-      setShowAchievementMessage(true)
-      Alert.alert("That's 5 achievements logged. Time to celebrate!")
-    }
+    // Celebration alert trigger
+    // if((achievements?.length + 1) % 5  == 0) {
+    //   setShowAchievementMessage(true)
+    //   Alert.alert("That's 5 achievements logged. Time to celebrate!")
+    // }
     navigation.goBack();
   }
 
