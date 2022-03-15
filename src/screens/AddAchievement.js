@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, SafeAreaView, ScrollView } from 'react-native';
+import { StyleSheet, View, SafeAreaView, ScrollView, Alert } from 'react-native';
 import { TextInput, FAB, Text } from 'react-native-paper';
-
+import { useSelector } from 'react-redux';
 import Checkbox from '../components/checkbox';
-
 import firebase from 'firebase';
 import 'firebase/firestore';
 
@@ -12,8 +11,10 @@ import { addachievementfirebase } from '../redux/achievements/achievements.actio
 
 function AddAchievement({ navigation }) {
   const [achievementTitle, setAchievementTitle] = useState('');
-  //
+  let achievements = useSelector((state) => state.achievements);
   const [achievementDescription, setDescription] = useState('');
+  // Achievement Message hook
+  // const [showAchievementMessage, setShowAchievementMessage] = useState(false)
   //
   const [selectedA, setSelectedA] = useState([]);
   const [selectedB, setSelectedB] = useState([]);
@@ -33,6 +34,11 @@ function AddAchievement({ navigation }) {
       selectedB,
       createdAt,
     });
+    // Celebration alert trigger
+    // if((achievements?.length + 1) % 5  == 0) {
+    //   setShowAchievementMessage(true)
+    //   Alert.alert("That's 5 achievements logged. Time to celebrate!")
+    // }
     navigation.goBack();
   }
 
