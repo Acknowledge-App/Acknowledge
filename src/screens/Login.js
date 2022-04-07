@@ -16,7 +16,7 @@ import {
   login,
   getUser,
 } from '../redux/user/user.actions';
-import Firebase from '../../config/Firebase';
+import Firebase from '/Users/johnbaxter/code/Acknowledge/config/Firebase.js';
 
 class Login extends React.Component {
   componentDidMount = () => {

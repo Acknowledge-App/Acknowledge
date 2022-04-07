@@ -19,3 +19,14 @@ config
 .env
 
 bin
+
+# Google play console private key
+acknowledge-344914-aa854b5658e8.json
+acknowledge-344914-3411fb974845.json
+acknowledge-344914-3c5ef10a5305.json
+pc-api-9114164478862579364-391-f2b3103ffb39.json
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build
