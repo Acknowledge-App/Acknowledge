@@ -12,9 +12,17 @@ web-build/
 # macOS
 .DS_Store
 
+# Google play
+.gradle/
+app/build/
+pc-api-9114164478862579364-391-f2b3103ffb39.json
+e1fa8982-29e2-478d-8181-8db9fe3e89fc_en.md
+c7c907cd-51b2-48ae-bdde-d41b0344e4df-c6afbfc3f6294ccc918278ce60b30854.aab
+
+
 # Hide Config files for firebase
 
-config
+config/.env.local
 
 .env
 
