@@ -21,6 +21,14 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.wordpress.acknowledge"
     },
+    "android": {
+      "package": "app.acknowledge",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./images/app_icon.jpg",
+        "backgroundColour": "#FFFFFF"
+      }
+    },
     "web": {
       "favicon": "./assets/favicon.png"
     }

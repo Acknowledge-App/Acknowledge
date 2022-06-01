@@ -35,7 +35,7 @@ class Password extends React.Component {
           />
           <TouchableOpacity
             style={styles.button}
-             onPress={this.handlePasswordReset}
+            onPress={this.handlePasswordReset}
           >
             <Text style={styles.buttonText}>Reset password </Text>
           </TouchableOpacity>
