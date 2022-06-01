@@ -1,3 +1,19 @@
+<<<<<<< HEAD
+dependencies {
+//    classpath 'com.android.tools.build:gradle:3.3.1'
+//    classpath 'com.google.gms:google-services:4.2.0'
+}
+
+subprojects {
+    project.configurations.all {
+        resolutionStrategy.eachDependency { details ->
+            if (details.requested.group == 'androidx.core' &&
+                    !details.requested.name.contains('androidx')) {
+                details.useVersion "1.0.1"
+            }
+        }
+    }
+=======
 buildscript {
   repositories {
     google()
@@ -12,4 +28,5 @@ allprojects {
   repositories {
     google()
   }
+>>>>>>> google-play-store-attempt
 }
